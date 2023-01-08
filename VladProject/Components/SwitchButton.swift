@@ -1,5 +1,5 @@
 //
-//  Select.swift
+//  SwitchButton.swift
 //  VladProject
 //
 //  Created by Vladislav Kitov on 08.01.2023.
@@ -7,19 +7,30 @@
 
 import UIKit
 
-class SelectButton: UIButton {
+class SwitchButton: UIButton {
+    
+    // MARK: - Struct
+
+    struct SwitchButtonViewModel {
+
+         enum View: String {
+             case IsTile = "Ico_Tile"
+             case IsList = "Ico_List"
+         }
+        
+    }
+    
     
     // MARK: - Propetrties
     
-    let labelButton = UILabel()
     let iconButton = UIImageView()
     
     
     // MARK: - LifeCycle
     
-    init(setText: String) {
+    init(setIcon: SwitchButtonViewModel.View) {
         super.init(frame: .zero)
-        labelButton.text = setText
+        iconButton.image = UIImage(named: SwitchButtonViewModel.View.IsTile.rawValue)
         configureView()
     }
     
@@ -42,24 +53,21 @@ class SelectButton: UIButton {
     }
     
     private func addSubviews() {
-        addSubview(labelButton)
         addSubview(iconButton)
     }
     
     private func configureConstraints() {
         self.translatesAutoresizingMaskIntoConstraints = false
-        labelButton.translatesAutoresizingMaskIntoConstraints = false
         iconButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             self.heightAnchor.constraint(equalToConstant: 48),
-            labelButton.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            labelButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+            self.widthAnchor.constraint(equalToConstant: 48),
             iconButton.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            iconButton.leadingAnchor.constraint(equalTo: labelButton.trailingAnchor, constant: 8),
+            iconButton.leadingAnchor.constraint(equalTo: self.trailingAnchor, constant: 8),
+            iconButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -12),
             iconButton.heightAnchor.constraint(equalToConstant: 24),
             iconButton.widthAnchor.constraint(equalToConstant: 24),
-            iconButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -12)
         ])
     }
     
@@ -68,12 +76,13 @@ class SelectButton: UIButton {
         self.layer.cornerRadius = 20
         self.clipsToBounds = true
         
-        labelButton.font = FontSize.actionFont
-        labelButton.textColor = Colors.primaryTextOnSurfaceColor
-        labelButton.textAlignment = .center
-        labelButton.text = "Popular".uppercased()
-        iconButton.image = UIImage(named: "Ico_Chevron_Down")
+        
         iconButton.tintColor = Colors.primaryTextOnSurfaceColor
+        
+        
+        
+        
     }
     
 }
+

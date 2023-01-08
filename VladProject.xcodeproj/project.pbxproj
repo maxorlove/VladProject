@@ -15,7 +15,9 @@
 		A49959FC296AECF7001C3D70 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49959FB296AECF7001C3D70 /* Colors.swift */; };
 		A49959FF296AEDE0001C3D70 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A49959FE296AEDE0001C3D70 /* Colors.xcassets */; };
 		A4995A01296AEDFE001C3D70 /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4995A00296AEDFE001C3D70 /* Typography.swift */; };
-		A4995A05296B111F001C3D70 /* Select.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4995A04296B111F001C3D70 /* Select.swift */; };
+		A4995A05296B111F001C3D70 /* SelectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4995A04296B111F001C3D70 /* SelectButton.swift */; };
+		A4995A07296B1FF1001C3D70 /* MovieListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4995A06296B1FF1001C3D70 /* MovieListViewCell.swift */; };
+		A4995A09296B3C2D001C3D70 /* SwitchButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4995A08296B3C2D001C3D70 /* SwitchButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,7 +31,9 @@
 		A49959FB296AECF7001C3D70 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		A49959FE296AEDE0001C3D70 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		A4995A00296AEDFE001C3D70 /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
-		A4995A04296B111F001C3D70 /* Select.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Select.swift; sourceTree = "<group>"; };
+		A4995A04296B111F001C3D70 /* SelectButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectButton.swift; sourceTree = "<group>"; };
+		A4995A06296B1FF1001C3D70 /* MovieListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListViewCell.swift; sourceTree = "<group>"; };
+		A4995A08296B3C2D001C3D70 /* SwitchButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,7 +92,9 @@
 		A4995A02296AEF5F001C3D70 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				A4995A04296B111F001C3D70 /* Select.swift */,
+				A4995A04296B111F001C3D70 /* SelectButton.swift */,
+				A4995A08296B3C2D001C3D70 /* SwitchButton.swift */,
+				A4995A06296B1FF1001C3D70 /* MovieListViewCell.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -171,12 +177,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A4995A07296B1FF1001C3D70 /* MovieListViewCell.swift in Sources */,
 				A4995A01296AEDFE001C3D70 /* Typography.swift in Sources */,
 				7FA98060295B24180053E050 /* ListMoviesViewController.swift in Sources */,
+				A4995A09296B3C2D001C3D70 /* SwitchButton.swift in Sources */,
 				A49959FC296AECF7001C3D70 /* Colors.swift in Sources */,
 				7FA9805C295B24180053E050 /* AppDelegate.swift in Sources */,
 				7FA9805E295B24180053E050 /* SceneDelegate.swift in Sources */,
-				A4995A05296B111F001C3D70 /* Select.swift in Sources */,
+				A4995A05296B111F001C3D70 /* SelectButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
