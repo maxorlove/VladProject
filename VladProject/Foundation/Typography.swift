@@ -15,5 +15,5 @@ enum FontSize {
     // static let mediumFont = UIFont.systemFont(ofSize: 20, weight: .regular)
     static let regularFont = UIFont.systemFont(ofSize: 20, weight: .regular)
     static let smallFont = UIFont.systemFont(ofSize: 15, weight: .regular)
-    static let actionFont = UIFont.systemFont(ofSize: 13, weight: .regular) // For uppercased() func
+    static let actionFont = UIFont.systemFont(ofSize: 13, weight: .semibold) // For uppercased() func
 }
