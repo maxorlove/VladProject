@@ -9,12 +9,14 @@ import UIKit
 
 enum Colors {
     
-//    static let accentColor = UIColor(named: "Accent")
-//    static let accentTextColor = UIColor(named: "AccentText")
-//    static let primaryBackgroundColor = UIColor(named: "PrimaryBackground")
-//    static let primaryTextColor = UIColor(named: "PrimaryText")
-//    static let secondaryBackgroundColor = UIColor(named: "SecondaryBackground")
-//    static let surfaceColor = UIColor(named: "Surface")
-//    static let tertiaryTextColor = UIColor(named: "TertiaryText")
+    static let accentSurfaceColor = UIColor(named: "accentSurfaceColor")
+    static let accentTextColor = UIColor(named: "accentTextColor")
+    static let primaryBackgroundColor = UIColor(named: "primaryBackgroundColor")
+    static let primarySurfaceColor = UIColor(named: "primarySurfaceColor")
+    static let primaryTextOnBackgroundColor = UIColor(named: "primaryTextOnBackgroundColor")
+    static let primaryTextOnSurfaceColor = UIColor(named: "primaryTextOnSurfaceColor")
+    static let secondarySurfaceColor = UIColor(named: "secondarySurfaceColor")
+    static let secondaryTextOnBackgroundColor = UIColor(named: "secondaryTextOnBackgroundColor")
+    static let secondaryTextOnSurfaceColor = UIColor(named: "secondaryTextOnSurfaceColor")
     
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ListMoviesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -15,7 +15,11 @@ class ViewController: UIViewController {
         setupView()
     }
 
-    func setupView() {
+    private func setupView() {
+        setupStyles()
+    }
+    
+    private func setupStyles() {
         view.backgroundColor = .blue
     }
     
