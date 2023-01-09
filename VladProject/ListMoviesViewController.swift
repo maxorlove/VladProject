@@ -60,6 +60,8 @@ class ListMoviesViewController: UIViewController {
         sortStack.addArrangedSubview(selectButton)
         sortStack.addArrangedSubview(switchButton)
         
+        
+        
     }
     
     private func setupStyles() {
