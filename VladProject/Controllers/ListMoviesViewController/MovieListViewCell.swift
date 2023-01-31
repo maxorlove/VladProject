@@ -13,7 +13,7 @@ class MovieListViewCell: UICollectionViewCell {
     private let imageView = UIImageView()
    // private let title = UILabel()
    
-    
+//    private let imageHeight: NSLayoutConstraint = 1.5
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -42,13 +42,15 @@ class MovieListViewCell: UICollectionViewCell {
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            //imageView.heightAnchor.constraint(equalToConstant: (imageView.widthAnchor*1.5))
+//            imageView.heightAnchor.constraint(equalToConstant: imageView.widthAnchor)
         ])
         
     }
     
     private func setupStyles() {
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 16
     }
     
     func configure(with model: Character) {

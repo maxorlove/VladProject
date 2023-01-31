@@ -14,8 +14,8 @@ class ListMoviesViewController: UIViewController {
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 0
-        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 8
+        layout.minimumInteritemSpacing = 8
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         return collectionView
     }()
@@ -63,7 +63,7 @@ class ListMoviesViewController: UIViewController {
     
     private func addSubviews() {
         
-        [screenTitle, sortStack, selectButton, switchButton, collectionView].forEach {
+        [collectionView, screenTitle, sortStack, selectButton, switchButton].forEach {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -78,7 +78,7 @@ class ListMoviesViewController: UIViewController {
             screenTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
             screenTitle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
             
-            sortStack.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            sortStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
             sortStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             //            image.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -86,9 +86,13 @@ class ListMoviesViewController: UIViewController {
             //            image.heightAnchor.constraint(equalToConstant: 256),
             //            image.widthAnchor.constraint(equalToConstant: 170)
             collectionView.topAnchor.constraint(equalTo: screenTitle.bottomAnchor, constant: 8),
-            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+//            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+//            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            
+
             
         ])
         
@@ -96,8 +100,12 @@ class ListMoviesViewController: UIViewController {
         sortStack.spacing = 8
         sortStack.alignment = UIStackView.Alignment.top
         
-        sortStack.addArrangedSubview(selectButton)
-        sortStack.addArrangedSubview(switchButton)
+        [selectButton, switchButton].forEach {
+            sortStack.addArrangedSubview($0)
+        }
+        
+//        sortStack.addArrangedSubview(selectButton)
+//        sortStack.addArrangedSubview(switchButton)
         
     }
     
@@ -139,7 +147,7 @@ extension ListMoviesViewController: UICollectionViewDataSource {
 extension ListMoviesViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: Constants.itemSize, height: Constants.itemSize)
+        return CGSize(width: Constants.itemWidth, height: Constants.itemWidth*1.5)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -161,6 +169,6 @@ extension ListMoviesViewController: UICollectionViewDelegateFlowLayout {
 private enum Constants {
     static let gridCellReuseId = "GridCollectionViewCellIdentifier"
     static let numberOfItemsInRow: CGFloat = 2
-    static let itemSize: CGFloat = (UIScreen.main.bounds.width / numberOfItemsInRow) - spacing
-    static let spacing: CGFloat = 2
+    static let itemWidth: CGFloat = (UIScreen.main.bounds.width / numberOfItemsInRow) - spacing*1.5
+    static let spacing: CGFloat = 8
 }
