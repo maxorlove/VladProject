@@ -9,6 +9,7 @@ import UIKit
 
 class ListMoviesViewController: UIViewController {
     
+    let screenTitle = UILabel()
     let selectButton = SelectButton(setText: "Popular")
     let switchButton = SwitchButton(setIcon: .IsTile)
     let image = UIImageView()
@@ -29,7 +30,7 @@ class ListMoviesViewController: UIViewController {
     
     private func addSubviews() {
         
-        [image, sortStack, selectButton, switchButton].forEach {
+        [screenTitle, image, sortStack, selectButton, switchButton].forEach {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -39,7 +40,11 @@ class ListMoviesViewController: UIViewController {
     private func configureConstraints() {
         
         NSLayoutConstraint.activate([
-  
+            
+            screenTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 104),
+            screenTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+            screenTitle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
+            
             sortStack.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             sortStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 //            sortStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
@@ -65,8 +70,13 @@ class ListMoviesViewController: UIViewController {
     }
     
     private func setupStyles() {
-        view.backgroundColor = .blue
+        view.backgroundColor = Colors.primaryBackgroundColor
         image.image = UIImage(named: "Cover")
+        
+        screenTitle.font = FontSize.largeFont
+        screenTitle.textColor = Colors.primaryTextOnBackgroundColor
+        screenTitle.text = "Movies"
+        
     }
     
 }

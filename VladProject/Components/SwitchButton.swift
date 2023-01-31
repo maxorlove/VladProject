@@ -24,7 +24,7 @@ class SwitchButton: UIButton {
     // MARK: - Propetrties
     
     let iconButton = UIImageView()
-    
+    private let customBlurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .systemThinMaterial))
     
     // MARK: - LifeCycle
     
@@ -53,33 +53,44 @@ class SwitchButton: UIButton {
     }
     
     private func addSubviews() {
-        addSubview(iconButton)
+        
+        [customBlurEffectView, iconButton].forEach {
+            self.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+        
     }
     
     private func configureConstraints() {
         self.translatesAutoresizingMaskIntoConstraints = false
-        iconButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             self.heightAnchor.constraint(equalToConstant: 48),
             self.widthAnchor.constraint(equalToConstant: 48),
+            
+            customBlurEffectView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            customBlurEffectView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            customBlurEffectView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            customBlurEffectView.topAnchor.constraint(equalTo: self.topAnchor),
+            
             iconButton.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             iconButton.leadingAnchor.constraint(equalTo: self.trailingAnchor, constant: 8),
             iconButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -12),
             iconButton.heightAnchor.constraint(equalToConstant: 24),
             iconButton.widthAnchor.constraint(equalToConstant: 24),
+            
         ])
     }
     
     private func configureStyles() {
-        self.backgroundColor = Colors.primarySurfaceColor
+//        self.backgroundColor = Colors.primarySurfaceColor
         self.layer.cornerRadius = 20
         self.clipsToBounds = true
         
         
         iconButton.tintColor = Colors.primaryTextOnSurfaceColor
         
-        
+       
         
         
     }
