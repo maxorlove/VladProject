@@ -9,21 +9,31 @@
 /* Begin PBXBuildFile section */
 		7FA9805C295B24180053E050 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA9805B295B24180053E050 /* AppDelegate.swift */; };
 		7FA9805E295B24180053E050 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA9805D295B24180053E050 /* SceneDelegate.swift */; };
-		7FA98060295B24180053E050 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA9805F295B24180053E050 /* ViewController.swift */; };
-		7FA98063295B24180053E050 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7FA98061295B24180053E050 /* Main.storyboard */; };
+		7FA98060295B24180053E050 /* ListMoviesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA9805F295B24180053E050 /* ListMoviesViewController.swift */; };
 		7FA98065295B24190053E050 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7FA98064295B24190053E050 /* Assets.xcassets */; };
 		7FA98068295B24190053E050 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7FA98066295B24190053E050 /* LaunchScreen.storyboard */; };
+		A49959FC296AECF7001C3D70 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49959FB296AECF7001C3D70 /* Colors.swift */; };
+		A49959FF296AEDE0001C3D70 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A49959FE296AEDE0001C3D70 /* Colors.xcassets */; };
+		A4995A01296AEDFE001C3D70 /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4995A00296AEDFE001C3D70 /* Typography.swift */; };
+		A4995A05296B111F001C3D70 /* SelectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4995A04296B111F001C3D70 /* SelectButton.swift */; };
+		A4995A07296B1FF1001C3D70 /* MovieListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4995A06296B1FF1001C3D70 /* MovieListViewCell.swift */; };
+		A4995A09296B3C2D001C3D70 /* SwitchButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4995A08296B3C2D001C3D70 /* SwitchButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		7FA98058295B24180053E050 /* VladProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VladProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7FA9805B295B24180053E050 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7FA9805D295B24180053E050 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		7FA9805F295B24180053E050 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		7FA98062295B24180053E050 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		7FA9805F295B24180053E050 /* ListMoviesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListMoviesViewController.swift; sourceTree = "<group>"; };
 		7FA98064295B24190053E050 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7FA98067295B24190053E050 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7FA98069295B24190053E050 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A49959FB296AECF7001C3D70 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		A49959FE296AEDE0001C3D70 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		A4995A00296AEDFE001C3D70 /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
+		A4995A04296B111F001C3D70 /* SelectButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectButton.swift; sourceTree = "<group>"; };
+		A4995A06296B1FF1001C3D70 /* MovieListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListViewCell.swift; sourceTree = "<group>"; };
+		A4995A08296B3C2D001C3D70 /* SwitchButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +66,44 @@
 		7FA9805A295B24180053E050 /* VladProject */ = {
 			isa = PBXGroup;
 			children = (
+				A49959FA296AEB27001C3D70 /* Foundation */,
+				A4995A03296AF055001C3D70 /* Models */,
 				7FA9805B295B24180053E050 /* AppDelegate.swift */,
 				7FA9805D295B24180053E050 /* SceneDelegate.swift */,
-				7FA9805F295B24180053E050 /* ViewController.swift */,
-				7FA98061295B24180053E050 /* Main.storyboard */,
-				7FA98064295B24190053E050 /* Assets.xcassets */,
+				7FA9805F295B24180053E050 /* ListMoviesViewController.swift */,
+				A4995A02296AEF5F001C3D70 /* Components */,
 				7FA98066295B24190053E050 /* LaunchScreen.storyboard */,
 				7FA98069295B24190053E050 /* Info.plist */,
 			);
 			path = VladProject;
+			sourceTree = "<group>";
+		};
+		A49959FA296AEB27001C3D70 /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				A4995A00296AEDFE001C3D70 /* Typography.swift */,
+				A49959FB296AECF7001C3D70 /* Colors.swift */,
+				A49959FE296AEDE0001C3D70 /* Colors.xcassets */,
+				7FA98064295B24190053E050 /* Assets.xcassets */,
+			);
+			path = Foundation;
+			sourceTree = "<group>";
+		};
+		A4995A02296AEF5F001C3D70 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				A4995A04296B111F001C3D70 /* SelectButton.swift */,
+				A4995A08296B3C2D001C3D70 /* SwitchButton.swift */,
+				A4995A06296B1FF1001C3D70 /* MovieListViewCell.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		A4995A03296AF055001C3D70 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -125,9 +164,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A49959FF296AEDE0001C3D70 /* Colors.xcassets in Resources */,
 				7FA98068295B24190053E050 /* LaunchScreen.storyboard in Resources */,
 				7FA98065295B24190053E050 /* Assets.xcassets in Resources */,
-				7FA98063295B24180053E050 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,23 +177,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7FA98060295B24180053E050 /* ViewController.swift in Sources */,
+				A4995A07296B1FF1001C3D70 /* MovieListViewCell.swift in Sources */,
+				A4995A01296AEDFE001C3D70 /* Typography.swift in Sources */,
+				7FA98060295B24180053E050 /* ListMoviesViewController.swift in Sources */,
+				A4995A09296B3C2D001C3D70 /* SwitchButton.swift in Sources */,
+				A49959FC296AECF7001C3D70 /* Colors.swift in Sources */,
 				7FA9805C295B24180053E050 /* AppDelegate.swift in Sources */,
 				7FA9805E295B24180053E050 /* SceneDelegate.swift in Sources */,
+				A4995A05296B111F001C3D70 /* SelectButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		7FA98061295B24180053E050 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				7FA98062295B24180053E050 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		7FA98066295B24190053E050 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -292,7 +328,6 @@
 				INFOPLIST_FILE = VladProject/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -320,7 +355,6 @@
 				INFOPLIST_FILE = VladProject/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
