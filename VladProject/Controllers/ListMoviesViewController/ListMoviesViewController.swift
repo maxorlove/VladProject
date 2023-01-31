@@ -8,11 +8,27 @@
 import UIKit
 
 class ListMoviesViewController: UIViewController {
+
+    
+    
+    private let collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 0
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        return collectionView
+    }()
+    
+    private let networkClient = NetworkServiceImpl()
+    private var dataSource: [Character] = []
+    private var currentPage: Int = 0
+    private var totalPages: Int = 1
     
     let screenTitle = UILabel()
     let selectButton = SelectButton(setText: "Popular")
     let switchButton = SwitchButton(setIcon: .IsTile)
-    let image = UIImageView()
+    //    let image = UIImageView()
     let sortStack = UIStackView()
     
     
@@ -20,17 +36,34 @@ class ListMoviesViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         setupView()
+        loadData(for: 0)
     }
+    
+    private func loadData(for page: Int) {
+        networkClient.allCharacters(page: page) { [weak self] result in
+            switch result {
+            case .success(let response):
+                DispatchQueue.main.async {
+                    self?.dataSource.append(contentsOf: response.results)
+                    self?.collectionView.reloadData()
+                }
+            case .failure(let error):
+                break
+            }
+        }
+    }
+    
     
     private func setupView() {
         addSubviews()
         configureConstraints()
         setupStyles()
+        setupCollectionView()
     }
     
     private func addSubviews() {
         
-        [screenTitle, image, sortStack, selectButton, switchButton].forEach {
+        [screenTitle, sortStack, selectButton, switchButton, collectionView].forEach {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -48,10 +81,14 @@ class ListMoviesViewController: UIViewController {
             sortStack.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             sortStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            image.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            image.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            image.heightAnchor.constraint(equalToConstant: 256),
-            image.widthAnchor.constraint(equalToConstant: 170)
+            //            image.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            //            image.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            //            image.heightAnchor.constraint(equalToConstant: 256),
+            //            image.widthAnchor.constraint(equalToConstant: 170)
+            collectionView.topAnchor.constraint(equalTo: screenTitle.bottomAnchor, constant: 8),
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             
         ])
         
@@ -62,13 +99,17 @@ class ListMoviesViewController: UIViewController {
         sortStack.addArrangedSubview(selectButton)
         sortStack.addArrangedSubview(switchButton)
         
-        
-        
+    }
+    
+    private func setupCollectionView() {
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(MovieListViewCell.self, forCellWithReuseIdentifier: Constants.gridCellReuseId)
     }
     
     private func setupStyles() {
         view.backgroundColor = Colors.primaryBackgroundColor
-        image.image = UIImage(named: "Cover")
+        //        image.image = UIImage(named: "Cover")
         
         screenTitle.font = FontSize.largeFont
         screenTitle.textColor = Colors.primaryTextOnBackgroundColor
@@ -78,3 +119,48 @@ class ListMoviesViewController: UIViewController {
     
 }
 
+extension ListMoviesViewController: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return dataSource.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let model = dataSource[indexPath.row]
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: Constants.gridCellReuseId,
+            for: indexPath
+        ) as! MovieListViewCell
+        cell.configure(with: model)
+        return cell
+    }
+}
+
+extension ListMoviesViewController: UICollectionViewDelegateFlowLayout {
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: Constants.itemSize, height: Constants.itemSize)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return Constants.spacing
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return Constants.spacing
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if dataSource.count - 3 == indexPath.row, currentPage < totalPages {
+            currentPage += 1
+            loadData(for: currentPage)
+        }
+    }
+    
+}
+
+private enum Constants {
+    static let gridCellReuseId = "GridCollectionViewCellIdentifier"
+    static let numberOfItemsInRow: CGFloat = 2
+    static let itemSize: CGFloat = (UIScreen.main.bounds.width / numberOfItemsInRow) - spacing
+    static let spacing: CGFloat = 2
+}
