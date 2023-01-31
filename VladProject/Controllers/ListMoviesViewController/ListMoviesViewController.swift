@@ -47,8 +47,6 @@ class ListMoviesViewController: UIViewController {
             
             sortStack.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             sortStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            sortStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
-//            sortStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32),
             
             image.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             image.centerYAnchor.constraint(equalTo: view.centerYAnchor),
@@ -58,7 +56,6 @@ class ListMoviesViewController: UIViewController {
         ])
         
         sortStack.axis = NSLayoutConstraint.Axis.horizontal
-        //sortStack.distribution = UIStackView.Distribution.fill
         sortStack.spacing = 8
         sortStack.alignment = UIStackView.Alignment.top
         
