@@ -7,8 +7,6 @@
 
 import Foundation
 
-import Foundation
-
 protocol NetworkService {
     func allCharacters(page: Int, completion: @escaping(Result<AllCharactersResponse, ErrorModel>) -> Void) -> URLSessionDataTask
 }

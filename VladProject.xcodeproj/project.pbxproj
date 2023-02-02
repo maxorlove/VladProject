@@ -26,6 +26,7 @@
 		A4995A05296B111F001C3D70 /* SelectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4995A04296B111F001C3D70 /* SelectButton.swift */; };
 		A4995A07296B1FF1001C3D70 /* MovieListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4995A06296B1FF1001C3D70 /* MovieListViewCell.swift */; };
 		A4995A09296B3C2D001C3D70 /* SwitchButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4995A08296B3C2D001C3D70 /* SwitchButton.swift */; };
+		A4CD304A298C1F900031C6F1 /* AllMoviesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CD3049298C1F900031C6F1 /* AllMoviesResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		A4995A04296B111F001C3D70 /* SelectButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectButton.swift; sourceTree = "<group>"; };
 		A4995A06296B1FF1001C3D70 /* MovieListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListViewCell.swift; sourceTree = "<group>"; };
 		A4995A08296B3C2D001C3D70 /* SwitchButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchButton.swift; sourceTree = "<group>"; };
+		A4CD3049298C1F900031C6F1 /* AllMoviesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllMoviesResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +150,7 @@
 			children = (
 				A41DABF729898C2100A7A7A2 /* ErrorModel.swift */,
 				A41DAC01298990EA00A7A7A2 /* AllCharactersResponse.swift */,
+				A4CD3049298C1F900031C6F1 /* AllMoviesResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -240,6 +243,7 @@
 				7FA9805C295B24180053E050 /* AppDelegate.swift in Sources */,
 				A41DAC02298990EA00A7A7A2 /* AllCharactersResponse.swift in Sources */,
 				A41DABFC29898C6100A7A7A2 /* RequestModel.swift in Sources */,
+				A4CD304A298C1F900031C6F1 /* AllMoviesResponse.swift in Sources */,
 				A41DABF829898C2100A7A7A2 /* ErrorModel.swift in Sources */,
 				7FA9805E295B24180053E050 /* SceneDelegate.swift in Sources */,
 				A4995A05296B111F001C3D70 /* SelectButton.swift in Sources */,
