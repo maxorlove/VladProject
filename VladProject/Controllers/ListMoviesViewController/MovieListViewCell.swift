@@ -11,7 +11,7 @@ import SDWebImage
 class MovieListViewCell: UICollectionViewCell {
     
     private let imageView = UIImageView()
-   // private let title = UILabel()
+    private let titleLabel = UILabel()
    
 //    private let imageHeight: NSLayoutConstraint = 1.5
     
@@ -31,7 +31,7 @@ class MovieListViewCell: UICollectionViewCell {
     
     private func addSubviews() {
         
-        [imageView].forEach {
+        [imageView, titleLabel].forEach {
             contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -42,6 +42,10 @@ class MovieListViewCell: UICollectionViewCell {
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8)
+            
 //            imageView.heightAnchor.constraint(equalToConstant: imageView.widthAnchor)
         ])
         
@@ -51,12 +55,17 @@ class MovieListViewCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 16
+        
+        titleLabel.font = FontSize.regularFont
+        titleLabel.textColor = .black
     }
     
-    func configure(with model: Character) {
-        imageView.image = nil
-        let url = URL(string: model.image)
-        imageView.sd_setImage(with: url)
+    func configure(with model: Movie) {
+//        titleLabel.text = model.originalTitle
+        titleLabel.text = "Тест"
+//        imageView.image = nil
+//        let url = URL(string: model.posterPath)
+//        imageView.sd_setImage(with: url)
     }
     
     override func prepareForReuse() {

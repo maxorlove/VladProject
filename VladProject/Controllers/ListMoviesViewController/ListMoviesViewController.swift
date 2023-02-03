@@ -21,7 +21,7 @@ class ListMoviesViewController: UIViewController {
     }()
     
     private let networkClient = NetworkServiceImpl()
-    private var dataSource: [Character] = []
+    private var dataSource: [Movie] = []
     private var currentPage: Int = 0
     private var totalPages: Int = 1
     
@@ -36,18 +36,20 @@ class ListMoviesViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         setupView()
-        loadData(for: 0)
+        loadData(for: 1)
     }
     
     private func loadData(for page: Int) {
-        networkClient.allCharacters(page: page) { [weak self] result in
+        networkClient.allPopularMovies(page: page) { [weak self] result in
             switch result {
             case .success(let response):
                 DispatchQueue.main.async {
+                    //   self?.dataSource += response.results
                     self?.dataSource.append(contentsOf: response.results)
                     self?.collectionView.reloadData()
                 }
             case .failure(let error):
+                print("Fail")
                 break
             }
         }
