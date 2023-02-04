@@ -8,6 +8,9 @@
 import UIKit
 
 class ListMoviesViewController: UIViewController {
+  
+    
+    // MARK: - Propetrties
     
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -26,10 +29,12 @@ class ListMoviesViewController: UIViewController {
     let screenTitle = UILabel()
     let selectButton = SelectButton(label: "Popular")
     let switchButton = SwitchButton(setIcon: .ToList)
-    
     let sortStack = UIStackView()
     
-    var activeSorting = TypeSorting.Sort.popular.rawValue
+    var activeSorting = TypeSorting.popular
+   
+    
+    // MARK: - LifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,12 +44,11 @@ class ListMoviesViewController: UIViewController {
     }
     
     private func loadData(sorting sort: String, for page: Int) {
-        
-        networkClient.allPopularMovies(sort: sort, page: page) { [weak self] result in
+        networkClient.allMovies(sort: sort, page: page) { [weak self] result in
             switch result {
             case .success(let response):
                 DispatchQueue.main.async {
-                       self?.dataSource += response.results
+                    self?.dataSource += response.results
                     self?.dataSource.append(contentsOf: response.results)
                     self?.collectionView.reloadData()
                 }
@@ -56,6 +60,8 @@ class ListMoviesViewController: UIViewController {
     }
     
     
+    // MARK: - Methods
+    
     private func setupView() {
         addSubviews()
         configureConstraints()
@@ -65,36 +71,29 @@ class ListMoviesViewController: UIViewController {
     }
     
     private func addSubviews() {
-        
         [collectionView, screenTitle, sortStack, selectButton, switchButton].forEach {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-        
     }
     
     private func configureConstraints() {
         
         NSLayoutConstraint.activate([
-            
             screenTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 104),
             screenTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
             screenTitle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
-            
             sortStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
             sortStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            
             collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 8),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
         ])
         
         sortStack.axis = NSLayoutConstraint.Axis.horizontal
         sortStack.spacing = 8
         sortStack.alignment = UIStackView.Alignment.top
-        
         [selectButton, switchButton].forEach {
             sortStack.addArrangedSubview($0)
         }
@@ -108,11 +107,9 @@ class ListMoviesViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
-        
         navigationController?.navigationBar.prefersLargeTitles = true
         title = "Movies"
         navigationController?.navigationBar.largeTitleTextAttributes = AttributedFontStyle.largeFont
-//        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "Ico_Chevron_Down"), style: .plain, target: self, action: #selector(selectTappedButton))
     }
     
     private func setupStyles() {
@@ -122,7 +119,7 @@ class ListMoviesViewController: UIViewController {
     
     
     
-    // Вызов Action Sheet для подтверждения удаления
+    // Вызов Action Sheet для сортировки
     
     @objc func selectTappedButton() {
         // Create the action buttons for the alert.
@@ -130,22 +127,21 @@ class ListMoviesViewController: UIViewController {
         let popularMoviesAction = UIAlertAction(title: "Popular", style: .default) { (action) in
             self.selectButton.setLabel(labelText: "Popular")
             self.dataSource.removeAll()
-            self.activeSorting = TypeSorting.Sort.popular.rawValue
+            self.activeSorting = TypeSorting.popular
             self.loadData(sorting: self.activeSorting, for: 1)
         }
         
-
         let nowPlayingMoviesAction = UIAlertAction(title: "Now playing", style: .default) { (action) in
             self.selectButton.setLabel(labelText: "Now playing")
             self.dataSource.removeAll()
-            self.activeSorting = TypeSorting.Sort.nowPlaying.rawValue
+            self.activeSorting = TypeSorting.nowPlaying
             self.loadData(sorting: self.activeSorting, for: 1)
         }
         
         let topRatedMoviesAction = UIAlertAction(title: "Top rated", style: .default) { (action) in
             self.selectButton.setLabel(labelText: "Top rated")
             self.dataSource.removeAll()
-            self.activeSorting = TypeSorting.Sort.topRated.rawValue
+            self.activeSorting = TypeSorting.topRated
             self.loadData(sorting: self.activeSorting, for: 1)
         }
         
@@ -158,7 +154,6 @@ class ListMoviesViewController: UIViewController {
         [popularMoviesAction, nowPlayingMoviesAction, topRatedMoviesAction, cancelAction].forEach {
             alert.addAction($0)
         }
-
         
         self.present(alert, animated: true) {
             // The alert was presented
@@ -166,6 +161,9 @@ class ListMoviesViewController: UIViewController {
     }
     
 }
+
+
+// MARK: - Extensions
 
 extension ListMoviesViewController: UICollectionViewDataSource {
     
@@ -203,8 +201,9 @@ extension ListMoviesViewController: UICollectionViewDelegateFlowLayout {
             loadData(sorting: activeSorting, for: currentPage)
         }
     }
-    
 }
+
+
 
 private enum Constants {
     static let gridCellReuseId = "GridCollectionViewCellIdentifier"
@@ -213,15 +212,11 @@ private enum Constants {
     static let spacing: CGFloat = 8
 }
 
-
-
-struct TypeSorting {
-
-     enum Sort: String {
-         case popular = "popular"
-//         case latest = "latest" // не отвечает
-         case nowPlaying = "now_playing"
-         case topRated = "top_rated"
-//         case upcoming = "upcoming" // не отвечает
-     }
+private enum TypeSorting {
+    static let popular = "popular"
+    static let nowPlaying = "now_playing"
+    static let topRated = "top_rated"
+//  static let upcoming = "upcoming" // не отвечает
+//  static let latest = "latest" // не отвечает
 }
+
