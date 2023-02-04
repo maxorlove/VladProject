@@ -67,7 +67,7 @@ class MovieTileViewCell: UICollectionViewCell {
         backgroundLabel.layer.cornerRadius = 13
         backgroundLabel.clipsToBounds = true
         
-        titleLabel.font = FontStyle.regularFont
+        titleLabel.font = FontStyle.subtitleFont
         titleLabel.textColor = Colors.accentTextColor
         titleLabel.numberOfLines = 2
         

@@ -95,7 +95,7 @@ class RatingView: UIView {
         iconView.image = UIImage(named: "Ico_Star_Filled")
         iconView.tintColor = Colors.accentTextColor
         
-        labelView.font = FontStyle.regularFont
+        labelView.font = FontStyle.subtitleFont
         labelView.textColor = Colors.accentTextColor
 
     }

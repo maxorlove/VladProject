@@ -7,25 +7,29 @@
 
 import Foundation
 
-enum Sorting {
-    case popular
-    case latest
-    case now_playing
-    case top_rated
-    case upcoming
-}
+//struct TypeSorting {
+//
+//     enum Sort: String {
+//         case popular = "popular"
+//         case latest = "latest"
+//         case nowPlaying = "now_playing"
+//         case topRated = "top_rated"
+//         case upcoming = "upcoming"
+//     }
+//}
+
 
 class AllMoviesRequest: RequestModel {
     
-    private var sort: Sorting
+    private var sort: String
     private let key: String = "bc9b269898d88d2847b3d4469cb0aa38"
     private let language: String = "en-US"
     private var page: Int
     
     
     
-    init(sort: Sorting, page: Int) {
-        self.sort = .popular
+    init(sort: String, page: Int) {
+        self.sort = sort
         self.page = page
     }
 
@@ -41,6 +45,8 @@ class AllMoviesRequest: RequestModel {
         ]
     }
 
+    
+    
     override var method: RequestHTTPMethod {
         return .get
     }
