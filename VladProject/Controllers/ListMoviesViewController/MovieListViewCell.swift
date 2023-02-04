@@ -58,12 +58,12 @@ class MovieListViewCell: UICollectionViewCell {
         
         titleLabel.font = FontSize.regularFont
         titleLabel.textColor = .black
+        titleLabel.numberOfLines = 2
     }
     
     func configure(with model: Movie) {
-//        titleLabel.text = model.originalTitle
-        titleLabel.text = "Тест"
-//        imageView.image = nil
+        titleLabel.text = model.originalTitle
+        imageView.image = nil
 //        let url = URL(string: model.posterPath)
 //        imageView.sd_setImage(with: url)
     }
@@ -72,6 +72,7 @@ class MovieListViewCell: UICollectionViewCell {
         super.prepareForReuse()
         imageView.sd_cancelCurrentImageLoad()
         imageView.image = nil
+        titleLabel.text = nil
     }
     
 }

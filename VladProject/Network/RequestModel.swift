@@ -39,19 +39,18 @@ extension RequestModel {
         var endpoint: String = ServiceManager.shared.baseURL.appending(path)
 
         if !parameters.isEmpty {
-//            endpoint.append("?")
-            endpoint.append("")
+            endpoint.append("?")
         }
         for parameter in parameters {
             if let value = parameter.value {
-                endpoint.append("\(parameter.key)=\(value)")
+                endpoint.append("\(parameter.key)=\(value)&")
             }
         }
         let urlString = endpoint.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!
         let url = URL(string: urlString)!
         var request: URLRequest = URLRequest(url: url)
 
-        print(url)
+//        print(url)
         
         request.httpMethod = method.rawValue
 
@@ -71,9 +70,3 @@ extension RequestModel {
     }
     
 }
-
-
-//https://api.themoviedb.org/3/movie/popular?&page=1&language=en-US&api_key=bc9b269898d88d2847b3d4469cb0aa38
-//https://api.themoviedb.org/3/movie/popular?&language=en-US&page=1&api_key=bc9b269898d88d2847b3d4469cb0aa38
-//https://api.themoviedb.org/3/movie/popular?&api_key=bc9b269898d88d2847b3d4469cb0aa38&page=1&language=en-US
-//https://api.themoviedb.org/3/movie/popular?&language=en-US&api_key=bc9b269898d88d2847b3d4469cb0aa38&page=1
