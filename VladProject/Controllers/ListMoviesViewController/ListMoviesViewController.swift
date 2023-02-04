@@ -9,8 +9,6 @@ import UIKit
 
 class ListMoviesViewController: UIViewController {
 
-    
-    
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -27,8 +25,8 @@ class ListMoviesViewController: UIViewController {
     
     let screenTitle = UILabel()
     let selectButton = SelectButton(setText: "Popular")
-    let switchButton = SwitchButton(setIcon: .IsTile)
-    //    let image = UIImageView()
+    let switchButton = SwitchButton(setIcon: .ToList)
+
     let sortStack = UIStackView()
     
     
@@ -83,18 +81,10 @@ class ListMoviesViewController: UIViewController {
             sortStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
             sortStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            //            image.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            //            image.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            //            image.heightAnchor.constraint(equalToConstant: 256),
-            //            image.widthAnchor.constraint(equalToConstant: 170)
-            collectionView.topAnchor.constraint(equalTo: screenTitle.bottomAnchor, constant: 8),
-//            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-//            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 8),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            
-
             
         ])
         
@@ -106,24 +96,22 @@ class ListMoviesViewController: UIViewController {
             sortStack.addArrangedSubview($0)
         }
         
-//        sortStack.addArrangedSubview(selectButton)
-//        sortStack.addArrangedSubview(switchButton)
-        
     }
     
     private func setupCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.register(MovieListViewCell.self, forCellWithReuseIdentifier: Constants.gridCellReuseId)
+        collectionView.register(MovieTileViewCell.self, forCellWithReuseIdentifier: Constants.gridCellReuseId)
     }
     
     private func setupStyles() {
         view.backgroundColor = Colors.primaryBackgroundColor
-        //        image.image = UIImage(named: "Cover")
-        
-        screenTitle.font = FontSize.largeFont
-        screenTitle.textColor = Colors.primaryTextOnBackgroundColor
-        screenTitle.text = "Movies"
+        collectionView.backgroundColor = Colors.primaryBackgroundColor
+     
+        navigationController?.navigationBar.prefersLargeTitles = true
+        title = "Movies"
+
+        navigationController?.navigationBar.largeTitleTextAttributes = AttributedFontStyle.largeFont
         
     }
     
@@ -140,7 +128,7 @@ extension ListMoviesViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: Constants.gridCellReuseId,
             for: indexPath
-        ) as! MovieListViewCell
+        ) as! MovieTileViewCell
         cell.configure(with: model)
         return cell
     }

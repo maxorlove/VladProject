@@ -8,12 +8,12 @@
 import UIKit
 import SDWebImage
 
-class MovieListViewCell: UICollectionViewCell {
+class MovieTileViewCell: UICollectionViewCell {
     
     private let imageView = UIImageView()
+    private let backgroundLabel = UIVisualEffectView(effect: UIBlurEffect(style: .systemChromeMaterialDark))
     private let titleLabel = UILabel()
-   
-//    private let imageHeight: NSLayoutConstraint = 1.5
+    private let rateView = RatingView()
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -31,7 +31,7 @@ class MovieListViewCell: UICollectionViewCell {
     
     private func addSubviews() {
         
-        [imageView, titleLabel].forEach {
+        [imageView, backgroundLabel, titleLabel, rateView].forEach {
             contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -42,30 +42,43 @@ class MovieListViewCell: UICollectionViewCell {
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8)
+            backgroundLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: 8),
+            backgroundLabel.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -8),
+            backgroundLabel.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -8),
+            backgroundLabel.heightAnchor.constraint(equalToConstant: 64),
             
-//            imageView.heightAnchor.constraint(equalToConstant: imageView.widthAnchor)
+            rateView.topAnchor.constraint(equalTo: imageView.topAnchor, constant: 8),
+            rateView.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -8),
+            
+            titleLabel.leadingAnchor.constraint(equalTo: backgroundLabel.leadingAnchor, constant: 12),
+            titleLabel.trailingAnchor.constraint(equalTo: backgroundLabel.trailingAnchor, constant: -12),
+            titleLabel.topAnchor.constraint(equalTo: backgroundLabel.topAnchor, constant: 8)
+
         ])
         
     }
     
     private func setupStyles() {
+        imageView.backgroundColor = Colors.secondaryBackgroundColor
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 16
         
-        titleLabel.font = FontSize.regularFont
-        titleLabel.textColor = .black
+        backgroundLabel.layer.cornerRadius = 13
+        backgroundLabel.clipsToBounds = true
+        
+        titleLabel.font = FontStyle.regularFont
+        titleLabel.textColor = Colors.accentTextColor
         titleLabel.numberOfLines = 2
+        
     }
     
     func configure(with model: Movie) {
+        rateView.labelView.text = "\(model.voteAverage)"
         titleLabel.text = model.originalTitle
         imageView.image = nil
-//        let url = URL(string: model.posterPath)
-//        imageView.sd_setImage(with: url)
+        let url = URL(string: "https://image.tmdb.org/t/p/original/\(model.posterPath)")
+        imageView.sd_setImage(with: url)
     }
     
     override func prepareForReuse() {

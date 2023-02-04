@@ -76,7 +76,7 @@ class SelectButton: UIButton {
         self.layer.cornerRadius = 20
         self.clipsToBounds = true
         
-        labelButton.font = FontSize.actionFont
+        labelButton.font = FontStyle.actionFont
         labelButton.textColor = Colors.primaryTextOnSurfaceColor
         labelButton.textAlignment = .center
         iconButton.image = UIImage(named: "Ico_Chevron_Down")

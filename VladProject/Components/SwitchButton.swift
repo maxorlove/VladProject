@@ -14,8 +14,8 @@ class SwitchButton: UIButton {
     struct SwitchButtonViewModel {
 
          enum View: String {
-             case IsTile = "Ico_Tile"
-             case IsList = "Ico_List"
+             case ToTile = "Ico_Tile"
+             case ToList = "Ico_List"
          }
         
     }
@@ -30,7 +30,7 @@ class SwitchButton: UIButton {
     
     init(setIcon: SwitchButtonViewModel.View) {
         super.init(frame: .zero)
-        iconButton.image = UIImage(named: SwitchButtonViewModel.View.IsTile.rawValue)
+        iconButton.image = UIImage(named: setIcon.rawValue)
         configureView()
     }
     
