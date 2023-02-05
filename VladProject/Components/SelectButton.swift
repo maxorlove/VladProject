@@ -20,7 +20,7 @@ class SelectButton: UIButton {
     init(label: String) {
         super.init(frame: .zero)
         setLabel(labelText: label)
-//        labelButton.text = setText.uppercased()
+        //        labelButton.text = setText.uppercased()
         configureView()
     }
     
@@ -77,7 +77,7 @@ class SelectButton: UIButton {
     }
     
     private func configureStyles() {
-//        self.backgroundColor = Colors.primarySurfaceColor
+        //        self.backgroundColor = Colors.primarySurfaceColor
         self.layer.cornerRadius = 20
         self.clipsToBounds = true
         
@@ -88,9 +88,19 @@ class SelectButton: UIButton {
         iconButton.tintColor = Colors.primaryTextOnSurfaceColor
         
         customBlurEffectView.isUserInteractionEnabled = false
+        self.addTarget(self, action: #selector(animateDecrease), for: .touchDown)
+        self.addTarget(self, action: #selector(animateIncrease), for: .touchUpInside)
     }
     
+    @objc func animateDecrease() {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+        })
+    }
+    
+    @objc func animateIncrease() {
+        UIView.animate(withDuration: 0.3) {
+            self.transform = CGAffineTransform.identity
+        }
+    }
 }
-
-
-

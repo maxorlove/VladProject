@@ -86,14 +86,23 @@ class SwitchButton: UIButton {
 //        self.backgroundColor = Colors.primarySurfaceColor
         self.layer.cornerRadius = 20
         self.clipsToBounds = true
-        
-        
         iconButton.tintColor = Colors.primaryTextOnSurfaceColor
         
-       
-        
-        
+        customBlurEffectView.isUserInteractionEnabled = false
+        self.addTarget(self, action: #selector(animateDecrease), for: .touchDown)
+        self.addTarget(self, action: #selector(animateIncrease), for: .touchUpInside)
     }
     
+    @objc func animateDecrease() {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+        })
+    }
+    
+    @objc func animateIncrease() {
+        UIView.animate(withDuration: 0.3) {
+            self.transform = CGAffineTransform.identity
+        }
+    }
 }
 

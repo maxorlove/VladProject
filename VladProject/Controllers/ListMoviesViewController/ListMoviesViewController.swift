@@ -41,15 +41,19 @@ class ListMoviesViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         setupView()
-        loadData(sorting: activeSorting, for: 1)
+        loadData(loadType: .load, sorting: activeSorting, for: 1)
     }
     
-    private func loadData(sorting sort: String, for page: Int) {
+    private func loadData(loadType: LoadType, sorting sort: String, for page: Int) {
         networkClient.allMovies(sort: sort, page: page) { [weak self] result in
             switch result {
             case .success(let response):
                 DispatchQueue.main.async {
-                    self?.dataSource += response.results
+                    
+                    if loadType == .reload {
+                        self?.dataSource.removeAll()
+                    }
+                    
                     self?.dataSource.append(contentsOf: response.results)
                     self?.collectionView.reloadData()
                 }
@@ -115,7 +119,9 @@ class ListMoviesViewController: UIViewController {
     private func setupStyles() {
         view.backgroundColor = Colors.primaryBackgroundColor
         selectButton.addTarget(self, action: #selector(selectTappedButton), for: .touchUpInside)
+        
     }
+    
     
     
     
@@ -127,8 +133,8 @@ class ListMoviesViewController: UIViewController {
         let popularMoviesAction = UIAlertAction(title: "Popular", style: .default) { (action) in
             self.selectButton.setLabel(labelText: "Popular")
             self.activeSorting = TypeSorting.popular
-            self.dataSource.removeAll()
-            self.loadData(sorting: self.activeSorting, for: 1)
+//            self.dataSource.removeAll()
+            self.loadData(loadType: .reload, sorting: self.activeSorting, for: 1)
 
             UIView.animate(withDuration: 0.2) { self.view.layoutIfNeeded() }
         }
@@ -136,8 +142,7 @@ class ListMoviesViewController: UIViewController {
         let nowPlayingMoviesAction = UIAlertAction(title: "Now playing", style: .default) { (action) in
             self.selectButton.setLabel(labelText: "Now playing")
             self.activeSorting = TypeSorting.nowPlaying
-            self.dataSource.removeAll()
-            self.loadData(sorting: self.activeSorting, for: 1)
+            self.loadData(loadType: .reload, sorting: self.activeSorting, for: 1)
         
             UIView.animate(withDuration: 0.2) { self.view.layoutIfNeeded() }
         }
@@ -145,8 +150,7 @@ class ListMoviesViewController: UIViewController {
         let topRatedMoviesAction = UIAlertAction(title: "Top rated", style: .default) { (action) in
             self.selectButton.setLabel(labelText: "Top rated")
             self.activeSorting = TypeSorting.topRated
-            self.dataSource.removeAll()
-            self.loadData(sorting: self.activeSorting, for: 1)
+            self.loadData(loadType: .reload, sorting: self.activeSorting, for: 1)
             
             UIView.animate(withDuration: 0.2) { self.view.layoutIfNeeded() }
         }
@@ -184,9 +188,12 @@ extension ListMoviesViewController: UICollectionViewDataSource {
             for: indexPath
         ) as! MovieTileViewCell
         cell.configure(with: model)
+        
         return cell
     }
 }
+
+
 
 extension ListMoviesViewController: UICollectionViewDelegateFlowLayout {
     
@@ -199,6 +206,11 @@ extension ListMoviesViewController: UICollectionViewDelegateFlowLayout {
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return Constants.spacing
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath)
+        
     }
     
 //    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -223,7 +235,9 @@ private enum TypeSorting {
     static let popular = "popular"
     static let nowPlaying = "now_playing"
     static let topRated = "top_rated"
-//  static let upcoming = "upcoming" // не отвечает
-//  static let latest = "latest" // не отвечает
 }
 
+private enum LoadType {
+    case load
+    case reload
+}

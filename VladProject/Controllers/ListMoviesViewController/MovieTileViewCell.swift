@@ -71,6 +71,7 @@ class MovieTileViewCell: UICollectionViewCell {
         titleLabel.textColor = Colors.accentTextColor
         titleLabel.numberOfLines = 2
         
+        
     }
     
     func configure(with model: Movie) {
@@ -86,6 +87,18 @@ class MovieTileViewCell: UICollectionViewCell {
         imageView.sd_cancelCurrentImageLoad()
         imageView.image = nil
         titleLabel.text = nil
+    }
+    
+    @objc func animateDecrease() {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+        })
+    }
+    
+    @objc func animateIncrease() {
+        UIView.animate(withDuration: 0.3) {
+            self.transform = CGAffineTransform.identity
+        }
     }
     
 }
