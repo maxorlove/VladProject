@@ -10,6 +10,7 @@ import UIKit
 class ListMoviesViewController: UIViewController {
   
     
+    
     // MARK: - Propetrties
     
     private let collectionView: UICollectionView = {
@@ -108,7 +109,6 @@ class ListMoviesViewController: UIViewController {
     
     private func setupNavigationBar() {
         navigationController?.navigationBar.prefersLargeTitles = true
-        title = "Movies"
         navigationController?.navigationBar.largeTitleTextAttributes = AttributedFontStyle.largeFont
     }
     
@@ -126,23 +126,29 @@ class ListMoviesViewController: UIViewController {
         
         let popularMoviesAction = UIAlertAction(title: "Popular", style: .default) { (action) in
             self.selectButton.setLabel(labelText: "Popular")
-            self.dataSource.removeAll()
             self.activeSorting = TypeSorting.popular
+            self.dataSource.removeAll()
             self.loadData(sorting: self.activeSorting, for: 1)
+
+            UIView.animate(withDuration: 0.2) { self.view.layoutIfNeeded() }
         }
         
         let nowPlayingMoviesAction = UIAlertAction(title: "Now playing", style: .default) { (action) in
             self.selectButton.setLabel(labelText: "Now playing")
-            self.dataSource.removeAll()
             self.activeSorting = TypeSorting.nowPlaying
+            self.dataSource.removeAll()
             self.loadData(sorting: self.activeSorting, for: 1)
+        
+            UIView.animate(withDuration: 0.2) { self.view.layoutIfNeeded() }
         }
         
         let topRatedMoviesAction = UIAlertAction(title: "Top rated", style: .default) { (action) in
             self.selectButton.setLabel(labelText: "Top rated")
-            self.dataSource.removeAll()
             self.activeSorting = TypeSorting.topRated
+            self.dataSource.removeAll()
             self.loadData(sorting: self.activeSorting, for: 1)
+            
+            UIView.animate(withDuration: 0.2) { self.view.layoutIfNeeded() }
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
@@ -159,7 +165,7 @@ class ListMoviesViewController: UIViewController {
             // The alert was presented
         }
     }
-    
+
 }
 
 
@@ -195,12 +201,13 @@ extension ListMoviesViewController: UICollectionViewDelegateFlowLayout {
         return Constants.spacing
     }
     
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if dataSource.count - 3 == indexPath.row, currentPage < totalPages {
-            currentPage += 1
-            loadData(sorting: activeSorting, for: currentPage)
-        }
-    }
+//    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+//        if dataSource.count - 3 == indexPath.row, currentPage < totalPages {
+//            currentPage += 1
+//            loadData(sorting: activeSorting, for: currentPage)
+//        }
+//    }
+    
 }
 
 

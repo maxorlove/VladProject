@@ -13,6 +13,8 @@
 		7FA98065295B24190053E050 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7FA98064295B24190053E050 /* Assets.xcassets */; };
 		7FA98068295B24190053E050 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7FA98066295B24190053E050 /* LaunchScreen.storyboard */; };
 		A40C3796298E928C00D093B2 /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A40C3795298E928C00D093B2 /* RatingView.swift */; };
+		A40C3798298FB3A400D093B2 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A40C3797298FB3A400D093B2 /* TabBarController.swift */; };
+		A40C379A299034BC00D093B2 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A40C3799299034BC00D093B2 /* ProfileViewController.swift */; };
 		A41DABF829898C2100A7A7A2 /* ErrorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A41DABF729898C2100A7A7A2 /* ErrorModel.swift */; };
 		A41DABFA29898C4800A7A7A2 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A41DABF929898C4800A7A7A2 /* NetworkService.swift */; };
 		A41DABFC29898C6100A7A7A2 /* RequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A41DABFB29898C6100A7A7A2 /* RequestModel.swift */; };
@@ -38,6 +40,8 @@
 		7FA98067295B24190053E050 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7FA98069295B24190053E050 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A40C3795298E928C00D093B2 /* RatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
+		A40C3797298FB3A400D093B2 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		A40C3799299034BC00D093B2 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		A41DABF729898C2100A7A7A2 /* ErrorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorModel.swift; sourceTree = "<group>"; };
 		A41DABF929898C4800A7A7A2 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		A41DABFB29898C6100A7A7A2 /* RequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestModel.swift; sourceTree = "<group>"; };
@@ -97,6 +101,14 @@
 			path = VladProject;
 			sourceTree = "<group>";
 		};
+		A40C379B299034C400D093B2 /* ProfileViewController */ = {
+			isa = PBXGroup;
+			children = (
+				A40C3799299034BC00D093B2 /* ProfileViewController.swift */,
+			);
+			path = ProfileViewController;
+			sourceTree = "<group>";
+		};
 		A41DABF4298981ED00A7A7A2 /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -111,6 +123,7 @@
 		A41DABF52989820A00A7A7A2 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				A40C379B299034C400D093B2 /* ProfileViewController */,
 				A41DABF629898A4D00A7A7A2 /* ListMoviesViewController */,
 			);
 			path = Controllers;
@@ -140,6 +153,7 @@
 			isa = PBXGroup;
 			children = (
 				A4995A04296B111F001C3D70 /* SelectButton.swift */,
+				A40C3797298FB3A400D093B2 /* TabBarController.swift */,
 				A40C3795298E928C00D093B2 /* RatingView.swift */,
 				A4995A08296B3C2D001C3D70 /* SwitchButton.swift */,
 			);
@@ -234,11 +248,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				A41DABFA29898C4800A7A7A2 /* NetworkService.swift in Sources */,
+				A40C3798298FB3A400D093B2 /* TabBarController.swift in Sources */,
 				A4995A07296B1FF1001C3D70 /* MovieTileViewCell.swift in Sources */,
 				A4995A01296AEDFE001C3D70 /* Typography.swift in Sources */,
 				7FA98060295B24180053E050 /* ListMoviesViewController.swift in Sources */,
 				A41DAC0029898CB000A7A7A2 /* ServiceManager.swift in Sources */,
 				A4995A09296B3C2D001C3D70 /* SwitchButton.swift in Sources */,
+				A40C379A299034BC00D093B2 /* ProfileViewController.swift in Sources */,
 				A49959FC296AECF7001C3D70 /* Colors.swift in Sources */,
 				7FA9805C295B24180053E050 /* AppDelegate.swift in Sources */,
 				A41DABFC29898C6100A7A7A2 /* RequestModel.swift in Sources */,

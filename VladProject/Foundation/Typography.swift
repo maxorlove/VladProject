@@ -26,3 +26,4 @@ enum AttributedFontStyle {
     static let largeFont = [NSAttributedString.Key.font: FontStyle.largeTitleFont]
 
 }
+
