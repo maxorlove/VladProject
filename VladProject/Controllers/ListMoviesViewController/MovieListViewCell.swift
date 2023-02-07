@@ -11,8 +11,8 @@ import SDWebImage
 class MovieListViewCell: UICollectionViewCell {
     
     private let imageView = UIImageView()
-//    private let backgroundLabel = UIVisualEffectView(effect: UIBlurEffect(style: .systemChromeMaterialDark))
     private let titleLabel = UILabel()
+    private let dateLabel = UILabel()
     private let rateView = RatingView()
     
     override public init(frame: CGRect) {
@@ -31,7 +31,7 @@ class MovieListViewCell: UICollectionViewCell {
     
     private func addSubviews() {
         
-        [imageView, titleLabel, rateView].forEach {
+        [imageView, titleLabel, dateLabel, rateView].forEach {
             contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -47,9 +47,13 @@ class MovieListViewCell: UICollectionViewCell {
             rateView.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -8),
             rateView.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -8),
             
-            titleLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: 24),
+            titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 24),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 24)
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 24),
+            
+            dateLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
+            dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            dateLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0)
 
         ])
         
@@ -61,16 +65,19 @@ class MovieListViewCell: UICollectionViewCell {
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 16
         
-        titleLabel.font = FontStyle.subtitleFont
-        titleLabel.textColor = Colors.accentTextColor
-        titleLabel.numberOfLines = 2
+        titleLabel.font = FontStyle.mediumTitleFont
+        titleLabel.textColor = Colors.primaryTextOnBackgroundColor
+        titleLabel.numberOfLines = 3
         
+        dateLabel.font = FontStyle.bodyFont
+        dateLabel.textColor = Colors.secondaryTextOnBackgroundColor
         
     }
     
     func configure(with model: Movie) {
         rateView.labelView.text = "\(model.voteAverage)"
         titleLabel.text = model.originalTitle
+        dateLabel.text = model.releaseDate
         imageView.image = nil
         let url = URL(string: "https://image.tmdb.org/t/p/original/\(model.posterPath)")
         imageView.sd_setImage(with: url)

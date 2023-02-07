@@ -144,13 +144,9 @@ class ListMoviesViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = Colors.primaryBackgroundColor
-        
-        switch currentLayout {
-        case .grid:
-            collectionView.register(MovieTileViewCell.self, forCellWithReuseIdentifier: CellConstants.gridCellReuseId)
-        case .list:
-            collectionView.register(MovieListViewCell.self, forCellWithReuseIdentifier: CellConstants.listCellReuseId)
-        }
+        collectionView.register(MovieListViewCell.self, forCellWithReuseIdentifier: CellConstants.listCellReuseId)
+        collectionView.register(MovieTileViewCell.self, forCellWithReuseIdentifier: CellConstants.gridCellReuseId)
+
     }
     
     private func setupNavigationBar() {
@@ -209,13 +205,12 @@ class ListMoviesViewController: UIViewController {
     @objc func switchTappedButton() {
         if currentLayout == .grid {
             currentLayout = .list
-            switchButton = SwitchButton(setIcon: .ToTile)
+            switchButton.iconButton.image = UIImage(named: "Ico_Tile")
         } else {
             currentLayout = .grid
-            switchButton = SwitchButton(setIcon: .ToList)
+            switchButton.iconButton.image = UIImage(named: "Ico_List")
         }
-//        collectionView.reloadData()
-        self.loadData(loadType: .reload, sorting: self.currentSorting, for: 1)
+        collectionView.reloadData()
     }
     
 }

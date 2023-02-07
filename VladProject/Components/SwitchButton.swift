@@ -25,6 +25,8 @@ class SwitchButton: UIButton {
     
     let iconButton = UIImageView()
     private let customBlurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .systemThinMaterial))
+    let generator = UIImpactFeedbackGenerator(style: .light)
+    
     
     // MARK: - LifeCycle
     
@@ -97,12 +99,14 @@ class SwitchButton: UIButton {
         UIView.animate(withDuration: 0.3, animations: {
             self.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
         })
+        generator.impactOccurred()
     }
     
     @objc func animateIncrease() {
         UIView.animate(withDuration: 0.3) {
             self.transform = CGAffineTransform.identity
         }
+        generator.impactOccurred()
     }
 }
 
