@@ -15,6 +15,7 @@
 		A40C3796298E928C00D093B2 /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A40C3795298E928C00D093B2 /* RatingView.swift */; };
 		A40C3798298FB3A400D093B2 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A40C3797298FB3A400D093B2 /* TabBarController.swift */; };
 		A40C379A299034BC00D093B2 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A40C3799299034BC00D093B2 /* ProfileViewController.swift */; };
+		A40C379D29918EA400D093B2 /* MovieListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A40C379C29918EA300D093B2 /* MovieListViewCell.swift */; };
 		A41DABF829898C2100A7A7A2 /* ErrorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A41DABF729898C2100A7A7A2 /* ErrorModel.swift */; };
 		A41DABFA29898C4800A7A7A2 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A41DABF929898C4800A7A7A2 /* NetworkService.swift */; };
 		A41DABFC29898C6100A7A7A2 /* RequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A41DABFB29898C6100A7A7A2 /* RequestModel.swift */; };
@@ -42,6 +43,7 @@
 		A40C3795298E928C00D093B2 /* RatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
 		A40C3797298FB3A400D093B2 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		A40C3799299034BC00D093B2 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		A40C379C29918EA300D093B2 /* MovieListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListViewCell.swift; sourceTree = "<group>"; };
 		A41DABF729898C2100A7A7A2 /* ErrorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorModel.swift; sourceTree = "<group>"; };
 		A41DABF929898C4800A7A7A2 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		A41DABFB29898C6100A7A7A2 /* RequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestModel.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				A4995A06296B1FF1001C3D70 /* MovieTileViewCell.swift */,
+				A40C379C29918EA300D093B2 /* MovieListViewCell.swift */,
 				7FA9805F295B24180053E050 /* ListMoviesViewController.swift */,
 			);
 			path = ListMoviesViewController;
@@ -258,6 +261,7 @@
 				A49959FC296AECF7001C3D70 /* Colors.swift in Sources */,
 				7FA9805C295B24180053E050 /* AppDelegate.swift in Sources */,
 				A41DABFC29898C6100A7A7A2 /* RequestModel.swift in Sources */,
+				A40C379D29918EA400D093B2 /* MovieListViewCell.swift in Sources */,
 				A4CD304A298C1F900031C6F1 /* AllMoviesResponse.swift in Sources */,
 				A40C3796298E928C00D093B2 /* RatingView.swift in Sources */,
 				A41DABF829898C2100A7A7A2 /* ErrorModel.swift in Sources */,

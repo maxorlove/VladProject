@@ -16,7 +16,6 @@ class TabBarController: UITabBarController {
         let listMoviesViewController = ListMoviesViewController()
         listMoviesViewController.title = "Movies"
         listMoviesViewController.tabBarItem = UITabBarItem(title: "", image: UIImage(named: "Ico_Compass"), selectedImage: nil)
-        
         let moviesView = UINavigationController.init(rootViewController: listMoviesViewController)
         
         
