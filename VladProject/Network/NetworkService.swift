@@ -8,14 +8,13 @@
 import Foundation
 
 protocol NetworkService {
-    func allPopularMovies(page: Int, completion: @escaping(Result<AllMoviesResponse, ErrorModel>) -> Void) -> URLSessionDataTask
+    func allMovies(sort: String, page: Int, completion: @escaping(Result<AllMoviesResponse, ErrorModel>) -> Void) -> URLSessionDataTask
 }
 
 class NetworkServiceImpl: NetworkService {
 
-    func allPopularMovies(page: Int, completion: @escaping(Result<AllMoviesResponse, ErrorModel>) -> Void) -> URLSessionDataTask {
-        let request = ServiceManager.shared.sendRequest(request: AllMoviesRequest(sort: .popular, page: page), completion: completion)
+    func allMovies(sort: String, page: Int, completion: @escaping(Result<AllMoviesResponse, ErrorModel>) -> Void) -> URLSessionDataTask {
+        let request = ServiceManager.shared.sendRequest(request: AllMoviesRequest(sort: sort, page: page), completion: completion)
         return request
     }
-
 }

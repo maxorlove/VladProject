@@ -22,8 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
         
-        let navigation = UINavigationController()
-        navigation.viewControllers = [ListMoviesViewController()]
+        let navigation = TabBarController()
         window?.rootViewController = navigation
         window?.makeKeyAndVisible()
         

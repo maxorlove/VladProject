@@ -8,8 +8,42 @@
 import UIKit
 
 class ListMoviesViewController: UIViewController {
-
     
+    // MARK: - Constants
+    
+    enum Layout {
+        case grid
+        case list
+    }
+    
+    private enum CellConstants {
+        static let gridCellReuseId = "GridCollectionViewCellIdentifier"
+        static let spacingForGrid: CGFloat = 8
+        static let numberOfItemsInRowForGrid: CGFloat = 2
+        static let cellGridWidth: CGFloat = (UIScreen.main.bounds.width / numberOfItemsInRowForGrid) - spacingForGrid*1.5
+        static let cellGridHeight: CGFloat = cellGridWidth*1.5
+        
+        static let listCellReuseId = "ListCollectionViewCellIdentifier"
+        static let numberOfItemsInRowForList: CGFloat = 1
+        static let spacingForList: CGFloat = 0
+        static let cellListWidth: CGFloat = UIScreen.main.bounds.width
+        static let cellListHeight: CGFloat = cellListWidth/1.8
+    }
+    
+    
+    private enum TypeSorting {
+        static let popular = "popular"
+        static let nowPlaying = "now_playing"
+        static let topRated = "top_rated"
+    }
+    
+    private enum LoadType {
+        case load
+        case reload
+    }
+    
+    
+    // MARK: - Propetrties
     
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -25,26 +59,37 @@ class ListMoviesViewController: UIViewController {
     private var currentPage: Int = 0
     private var totalPages: Int = 1
     
-    let screenTitle = UILabel()
-    let selectButton = SelectButton(setText: "Popular")
-    let switchButton = SwitchButton(setIcon: .IsTile)
-    //    let image = UIImageView()
-    let sortStack = UIStackView()
+    private let tileViewCell = MovieTileViewCell()
+    private let listViewCell = MovieListViewCell()
     
+    private let screenTitle = UILabel()
+    private let selectButton = SelectButton(label: "Popular")
+    private var switchButton = SwitchButton(setIcon: .ToList)
+    private let sortStack = UIStackView()
+    
+    private var currentSorting = TypeSorting.popular
+    var currentLayout: Layout = .list
+    
+    
+    // MARK: - LifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         setupView()
-        loadData(for: 1)
+        loadData(loadType: .load, sorting: currentSorting, for: 1)
     }
     
-    private func loadData(for page: Int) {
-        networkClient.allPopularMovies(page: page) { [weak self] result in
+    private func loadData(loadType: LoadType, sorting sort: String, for page: Int) {
+        networkClient.allMovies(sort: sort, page: page) { [weak self] result in
             switch result {
             case .success(let response):
                 DispatchQueue.main.async {
-                    //   self?.dataSource += response.results
+                    
+                    if loadType == .reload {
+                        self?.dataSource.removeAll()
+                    }
+                    
                     self?.dataSource.append(contentsOf: response.results)
                     self?.collectionView.reloadData()
                 }
@@ -56,78 +101,122 @@ class ListMoviesViewController: UIViewController {
     }
     
     
+    // MARK: - Methods
+    
     private func setupView() {
         addSubviews()
         configureConstraints()
-        setupStyles()
         setupCollectionView()
+        setupNavigationBar()
+        setupStyles()
     }
     
     private func addSubviews() {
-        
         [collectionView, screenTitle, sortStack, selectButton, switchButton].forEach {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-        
     }
     
     private func configureConstraints() {
         
         NSLayoutConstraint.activate([
-            
             screenTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 104),
             screenTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
             screenTitle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
-            
             sortStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
             sortStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            
-            //            image.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            //            image.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            //            image.heightAnchor.constraint(equalToConstant: 256),
-            //            image.widthAnchor.constraint(equalToConstant: 170)
-            collectionView.topAnchor.constraint(equalTo: screenTitle.bottomAnchor, constant: 8),
-//            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-//            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 8),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            
-
-            
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
         
         sortStack.axis = NSLayoutConstraint.Axis.horizontal
         sortStack.spacing = 8
         sortStack.alignment = UIStackView.Alignment.top
-        
         [selectButton, switchButton].forEach {
             sortStack.addArrangedSubview($0)
         }
-        
-//        sortStack.addArrangedSubview(selectButton)
-//        sortStack.addArrangedSubview(switchButton)
-        
     }
     
     private func setupCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.register(MovieListViewCell.self, forCellWithReuseIdentifier: Constants.gridCellReuseId)
+        collectionView.backgroundColor = Colors.primaryBackgroundColor
+        collectionView.register(MovieListViewCell.self, forCellWithReuseIdentifier: CellConstants.listCellReuseId)
+        collectionView.register(MovieTileViewCell.self, forCellWithReuseIdentifier: CellConstants.gridCellReuseId)
+
+    }
+    
+    private func setupNavigationBar() {
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.largeTitleTextAttributes = AttributedFontStyle.largeFont
     }
     
     private func setupStyles() {
         view.backgroundColor = Colors.primaryBackgroundColor
-        //        image.image = UIImage(named: "Cover")
+        selectButton.addTarget(self, action: #selector(selectTappedButton), for: .touchUpInside)
+        switchButton.addTarget(self, action: #selector(switchTappedButton), for: .touchUpInside)
+    }
+    
+    
+    // Вызов Action Sheet для сортировки
+    
+    @objc func selectTappedButton() {
         
-        screenTitle.font = FontSize.largeFont
-        screenTitle.textColor = Colors.primaryTextOnBackgroundColor
-        screenTitle.text = "Movies"
+        let popularMoviesAction = UIAlertAction(title: "Popular", style: .default) { (action) in
+            self.selectButton.setLabel(labelText: "Popular")
+            self.currentSorting = TypeSorting.popular
+            self.loadData(loadType: .reload, sorting: self.currentSorting, for: 1)
+            
+            UIView.animate(withDuration: 0.2) { self.view.layoutIfNeeded() }
+        }
         
+        let nowPlayingMoviesAction = UIAlertAction(title: "Now playing", style: .default) { (action) in
+            self.selectButton.setLabel(labelText: "Now playing")
+            self.currentSorting = TypeSorting.nowPlaying
+            self.loadData(loadType: .reload, sorting: self.currentSorting, for: 1)
+            
+            UIView.animate(withDuration: 0.2) { self.view.layoutIfNeeded() }
+        }
+        
+        let topRatedMoviesAction = UIAlertAction(title: "Top rated", style: .default) { (action) in
+            self.selectButton.setLabel(labelText: "Top rated")
+            self.currentSorting = TypeSorting.topRated
+            self.loadData(loadType: .reload, sorting: self.currentSorting, for: 1)
+            
+            UIView.animate(withDuration: 0.2) { self.view.layoutIfNeeded() }
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+        }
+        
+        let alert = UIAlertController(title: "Sorting", message: .none, preferredStyle: .actionSheet)
+        [popularMoviesAction, nowPlayingMoviesAction, topRatedMoviesAction, cancelAction].forEach {
+            alert.addAction($0)
+        }
+        
+        self.present(alert, animated: true) {
+            
+        }
+    }
+    
+    @objc func switchTappedButton() {
+        if currentLayout == .grid {
+            currentLayout = .list
+            switchButton.iconButton.image = UIImage(named: "Ico_Tile")
+        } else {
+            currentLayout = .grid
+            switchButton.iconButton.image = UIImage(named: "Ico_List")
+        }
+        collectionView.reloadData()
     }
     
 }
+
+
+// MARK: - Extensions
 
 extension ListMoviesViewController: UICollectionViewDataSource {
     
@@ -137,40 +226,57 @@ extension ListMoviesViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let model = dataSource[indexPath.row]
-        let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: Constants.gridCellReuseId,
-            for: indexPath
-        ) as! MovieListViewCell
-        cell.configure(with: model)
-        return cell
+        
+        switch currentLayout {
+            
+        case .grid:
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: CellConstants.gridCellReuseId,
+                for: indexPath
+            ) as! MovieTileViewCell
+            cell.configure(with: model)
+            return cell
+            
+        case .list:
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: CellConstants.listCellReuseId,
+                for: indexPath
+            ) as! MovieListViewCell
+            cell.configure(with: model)
+            return cell
+        }
     }
 }
 
 extension ListMoviesViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: Constants.itemWidth, height: Constants.itemWidth*1.5)
-    }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return Constants.spacing
-    }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return Constants.spacing
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if dataSource.count - 3 == indexPath.row, currentPage < totalPages {
-            currentPage += 1
-            loadData(for: currentPage)
+        switch currentLayout {
+        case .grid:
+            return CGSize(width: CellConstants.cellGridWidth, height: CellConstants.cellGridHeight)
+        case .list:
+            return CGSize(width: CellConstants.cellListWidth, height: CellConstants.cellListHeight)
         }
     }
     
-}
-
-private enum Constants {
-    static let gridCellReuseId = "GridCollectionViewCellIdentifier"
-    static let numberOfItemsInRow: CGFloat = 2
-    static let itemWidth: CGFloat = (UIScreen.main.bounds.width / numberOfItemsInRow) - spacing*1.5
-    static let spacing: CGFloat = 8
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        
+        switch currentLayout {
+        case .grid:
+            return CellConstants.spacingForGrid
+        case .list:
+            return CellConstants.spacingForList
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        
+        switch currentLayout {
+        case .grid:
+            return CellConstants.spacingForGrid
+        case .list:
+            return CellConstants.spacingForList
+        }
+    }
 }

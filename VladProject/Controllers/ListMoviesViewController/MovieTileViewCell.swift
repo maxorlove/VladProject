@@ -2,17 +2,17 @@
 //  MovieListViewCell.swift
 //  VladProject
 //
-//  Created by Vladislav Kitov on 06.02.2023.
+//  Created by Vladislav Kitov on 08.01.2023.
 //
 
 import UIKit
 import SDWebImage
 
-class MovieListViewCell: UICollectionViewCell {
+class MovieTileViewCell: UICollectionViewCell {
     
     private let imageView = UIImageView()
+    private let backgroundLabel = UIVisualEffectView(effect: UIBlurEffect(style: .systemChromeMaterialDark))
     private let titleLabel = UILabel()
-    private let dateLabel = UILabel()
     private let rateView = RatingView()
     
     override public init(frame: CGRect) {
@@ -31,29 +31,28 @@ class MovieListViewCell: UICollectionViewCell {
     
     private func addSubviews() {
         
-        [imageView, titleLabel, dateLabel, rateView].forEach {
+        [imageView, backgroundLabel, titleLabel, rateView].forEach {
             contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-//            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
-            imageView.widthAnchor.constraint(equalToConstant: 136),
-            imageView.heightAnchor.constraint(equalToConstant: 204),
+            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            rateView.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -8),
+            backgroundLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: 8),
+            backgroundLabel.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -8),
+            backgroundLabel.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -8),
+            backgroundLabel.heightAnchor.constraint(equalToConstant: 64),
+            
+            rateView.topAnchor.constraint(equalTo: imageView.topAnchor, constant: 8),
             rateView.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -8),
             
-            titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 24),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 24),
-            
-            dateLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: 0),
-            dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
-            dateLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 0)
+            titleLabel.leadingAnchor.constraint(equalTo: backgroundLabel.leadingAnchor, constant: 12),
+            titleLabel.trailingAnchor.constraint(equalTo: backgroundLabel.trailingAnchor, constant: -12),
+            titleLabel.topAnchor.constraint(equalTo: backgroundLabel.topAnchor, constant: 8)
 
         ])
         
@@ -65,19 +64,19 @@ class MovieListViewCell: UICollectionViewCell {
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 16
         
-        titleLabel.font = FontStyle.mediumTitleFont
-        titleLabel.textColor = Colors.primaryTextOnBackgroundColor
-        titleLabel.numberOfLines = 3
+        backgroundLabel.layer.cornerRadius = 13
+        backgroundLabel.clipsToBounds = true
         
-        dateLabel.font = FontStyle.bodyFont
-        dateLabel.textColor = Colors.secondaryTextOnBackgroundColor
+        titleLabel.font = FontStyle.subtitleFont
+        titleLabel.textColor = Colors.accentTextColor
+        titleLabel.numberOfLines = 2
+        
         
     }
     
     func configure(with model: Movie) {
         rateView.labelView.text = "\(model.voteAverage)"
         titleLabel.text = model.originalTitle
-        dateLabel.text = model.releaseDate
         imageView.image = nil
         let url = URL(string: "https://image.tmdb.org/t/p/original/\(model.posterPath)")
         imageView.sd_setImage(with: url)

@@ -11,15 +11,17 @@ class SelectButton: UIButton {
     
     // MARK: - Propetrties
     
-    let labelButton = UILabel()
+    var labelButton = UILabel()
     let iconButton = UIImageView()
     private let customBlurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .systemThinMaterial))
+    let generator = UIImpactFeedbackGenerator(style: .light)
     
     // MARK: - LifeCycle
     
-    init(setText: String) {
+    init(label: String) {
         super.init(frame: .zero)
-        labelButton.text = setText.uppercased()
+        setLabel(labelText: label)
+        //        labelButton.text = setText.uppercased()
         configureView()
     }
     
@@ -71,25 +73,37 @@ class SelectButton: UIButton {
         ])
     }
     
+    func setLabel(labelText: String) {
+        labelButton.text = labelText.uppercased()
+    }
+    
     private func configureStyles() {
-        //self.backgroundColor = Colors.primarySurfaceColor
+        //        self.backgroundColor = Colors.primarySurfaceColor
         self.layer.cornerRadius = 20
         self.clipsToBounds = true
         
-        labelButton.font = FontSize.actionFont
+        labelButton.font = FontStyle.actionFont
         labelButton.textColor = Colors.primaryTextOnSurfaceColor
         labelButton.textAlignment = .center
         iconButton.image = UIImage(named: "Ico_Chevron_Down")
         iconButton.tintColor = Colors.primaryTextOnSurfaceColor
         
-//        background.backgroundColor = .black
-//        selectButton.layer.shadowOffset = CGSize(width: 0, height: 10)
-//        selectButton.layer.shadowRadius = 5
-//        selectButton.layer.shadowOpacity = 0.3
-
-        
-        
+        customBlurEffectView.isUserInteractionEnabled = false
+        self.addTarget(self, action: #selector(animateDecrease), for: .touchDown)
+        self.addTarget(self, action: #selector(animateIncrease), for: .touchUpInside)
     }
     
+    @objc func animateDecrease() {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+        })
+        generator.impactOccurred()
+    }
+    
+    @objc func animateIncrease() {
+        UIView.animate(withDuration: 0.3) {
+            self.transform = CGAffineTransform.identity
+        }
+        generator.impactOccurred()
+    }
 }
-
