@@ -42,9 +42,9 @@ class MovieTileViewCell: UICollectionViewCell {
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            backgroundLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: 8),
-            backgroundLabel.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -8),
-            backgroundLabel.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -8),
+            backgroundLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: 4),
+            backgroundLabel.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -4),
+            backgroundLabel.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -4),
             backgroundLabel.heightAnchor.constraint(equalToConstant: 64),
             
             rateView.topAnchor.constraint(equalTo: imageView.topAnchor, constant: 8),
@@ -62,9 +62,9 @@ class MovieTileViewCell: UICollectionViewCell {
         imageView.backgroundColor = Colors.secondaryBackgroundColor
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 16
+        imageView.layer.cornerRadius = 24
         
-        backgroundLabel.layer.cornerRadius = 13
+        backgroundLabel.layer.cornerRadius = 20
         backgroundLabel.clipsToBounds = true
         
         titleLabel.font = FontStyle.subtitleFont

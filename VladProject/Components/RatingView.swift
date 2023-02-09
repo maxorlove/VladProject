@@ -89,13 +89,13 @@ class RatingView: UIView {
     }
     
     private func configureStyles() {
-        self.layer.cornerRadius = 12
+        self.layer.cornerRadius = 20
         self.clipsToBounds = true
         
         iconView.image = UIImage(named: "Ico_Star_Filled")
         iconView.tintColor = Colors.accentTextColor
         
-        labelView.font = FontStyle.subtitleFont
+        labelView.font = FontStyle.smallFont
         labelView.textColor = Colors.accentTextColor
 
     }

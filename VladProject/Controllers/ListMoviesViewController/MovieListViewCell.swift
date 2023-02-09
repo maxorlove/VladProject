@@ -63,9 +63,9 @@ class MovieListViewCell: UICollectionViewCell {
         imageView.backgroundColor = Colors.secondaryBackgroundColor
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 16
+        imageView.layer.cornerRadius = 24
         
-        titleLabel.font = FontStyle.mediumTitleFont
+        titleLabel.font = FontStyle.smallTitleFont
         titleLabel.textColor = Colors.primaryTextOnBackgroundColor
         titleLabel.numberOfLines = 3
         
