@@ -67,8 +67,8 @@ class SwitchButton: UIButton {
         self.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            self.heightAnchor.constraint(equalToConstant: 48),
-            self.widthAnchor.constraint(equalToConstant: 48),
+            self.heightAnchor.constraint(equalToConstant: 56),
+            self.widthAnchor.constraint(equalToConstant: 56),
             
             customBlurEffectView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             customBlurEffectView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
@@ -76,8 +76,9 @@ class SwitchButton: UIButton {
             customBlurEffectView.topAnchor.constraint(equalTo: self.topAnchor),
             
             iconButton.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            iconButton.leadingAnchor.constraint(equalTo: self.trailingAnchor, constant: 8),
-            iconButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -12),
+            iconButton.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+//            iconButton.leadingAnchor.constraint(equalTo: self.trailingAnchor, constant: 8),
+//            iconButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -12),
             iconButton.heightAnchor.constraint(equalToConstant: 24),
             iconButton.widthAnchor.constraint(equalToConstant: 24),
             
