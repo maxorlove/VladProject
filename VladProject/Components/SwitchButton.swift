@@ -11,14 +11,14 @@ class SwitchButton: UIButton {
     
     // MARK: - Struct
 
-    struct SwitchButtonViewModel {
-
-         enum View: String {
-             case ToTile = "Ico_Tile"
-             case ToList = "Ico_List"
-         }
-        
-    }
+//    struct SwitchButtonViewModel {
+//
+//         enum View: String {
+//             case ToTile = "Ico_Tile"
+//             case ToList = "Ico_List"
+//         }
+//
+//    }
     
     
     // MARK: - Propetrties
@@ -30,9 +30,9 @@ class SwitchButton: UIButton {
     
     // MARK: - LifeCycle
     
-    init(setIcon: SwitchButtonViewModel.View) {
+    init(setIcon: String) {
         super.init(frame: .zero)
-        iconButton.image = UIImage(named: setIcon.rawValue)
+        iconButton.image = UIImage(named: setIcon)
         configureView()
     }
     
@@ -99,7 +99,7 @@ class SwitchButton: UIButton {
         UIView.animate(withDuration: 0.3, animations: {
             self.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
         })
-        generator.impactOccurred()
+//        generator.impactOccurred()
     }
     
     @objc func animateIncrease() {

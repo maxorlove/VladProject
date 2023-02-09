@@ -64,11 +64,11 @@ class ListMoviesViewController: UIViewController {
     
     private let screenTitle = UILabel()
     private let selectButton = SelectButton(label: "Popular")
-    private var switchButton = SwitchButton(setIcon: .ToList)
+    private var switchButton = SwitchButton(setIcon: "Ico_List")
     private let sortStack = UIStackView()
     
     private var currentSorting = TypeSorting.popular
-    var currentLayout: Layout = .list
+    var currentLayout: Layout = .grid
     
     
     // MARK: - LifeCycle
@@ -204,11 +204,11 @@ class ListMoviesViewController: UIViewController {
     
     @objc func switchTappedButton() {
         if currentLayout == .grid {
-            currentLayout = .list
             switchButton.iconButton.image = UIImage(named: "Ico_Tile")
+            currentLayout = .list
         } else {
-            currentLayout = .grid
             switchButton.iconButton.image = UIImage(named: "Ico_List")
+            currentLayout = .grid
         }
         collectionView.reloadData()
     }

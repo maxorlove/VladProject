@@ -67,7 +67,7 @@ class RatingView: UIView {
         self.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            self.heightAnchor.constraint(equalToConstant: 36),
+            self.heightAnchor.constraint(equalToConstant: 40),
 //            self.widthAnchor.constraint(equalToConstant: 64),
             
             backgroundView.leadingAnchor.constraint(equalTo: self.leadingAnchor),

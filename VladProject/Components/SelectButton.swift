@@ -97,7 +97,7 @@ class SelectButton: UIButton {
         UIView.animate(withDuration: 0.3, animations: {
             self.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
         })
-        generator.impactOccurred()
+//        generator.impactOccurred()
     }
     
     @objc func animateIncrease() {

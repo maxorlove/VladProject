@@ -47,8 +47,8 @@ class MovieTileViewCell: UICollectionViewCell {
             backgroundLabel.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -4),
             backgroundLabel.heightAnchor.constraint(equalToConstant: 64),
             
-            rateView.topAnchor.constraint(equalTo: imageView.topAnchor, constant: 8),
-            rateView.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -8),
+            rateView.topAnchor.constraint(equalTo: imageView.topAnchor, constant: 4),
+            rateView.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -4),
             
             titleLabel.leadingAnchor.constraint(equalTo: backgroundLabel.leadingAnchor, constant: 12),
             titleLabel.trailingAnchor.constraint(equalTo: backgroundLabel.trailingAnchor, constant: -12),
