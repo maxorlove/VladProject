@@ -64,7 +64,7 @@ class ListMoviesViewController: UIViewController {
     
     private let screenTitle = UILabel()
     private let selectButton = SelectButton(label: "Popular")
-    private var switchButton = SwitchButton(setIcon: "Ico_List")
+    private var switchButton = IconButton(setIcon: "Ico_List")
     private let sortStack = UIStackView()
     
     private var currentSorting = TypeSorting.popular

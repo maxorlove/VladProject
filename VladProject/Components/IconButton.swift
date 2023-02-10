@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SwitchButton: UIButton {
+class IconButton: UIButton {
     
     // MARK: - Struct
 

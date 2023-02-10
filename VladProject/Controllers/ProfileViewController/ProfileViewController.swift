@@ -11,7 +11,10 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: - Constants
     
-    
+    struct Constants {
+        static let backgroundHeight: CGFloat = 464
+        static let coverHeight: CGFloat = 396
+    }
     
     
     // MARK: - Propetrties
@@ -20,9 +23,17 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
     private let contentView = UIView()
     
     private let imageBackgroundView = UIImageView()
+    private var imageBackgroundHeightConstraint: NSLayoutConstraint!
+    
     private let blurBackgroundView = UIVisualEffectView(effect: UIBlurEffect(style: .prominent))
+    
+    
     private let coverMovieView = UIImageView()
-    private let likeButton = SwitchButton()
+    private var coverTopConstraint: NSLayoutConstraint!
+    private var coverHeightConstraint: NSLayoutConstraint!
+    private var coverWidhtConstraint: NSLayoutConstraint!
+    
+    private let likeButton = IconButton()
     
     private let titleLabel = UILabel()
     
@@ -59,7 +70,7 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
     
     private func addSubviews() {
         //
-        [imageBackgroundView, blurBackgroundView, coverMovieView, scrollView].forEach {
+        [imageBackgroundView, blurBackgroundView, coverMovieView, scrollView, likeButton].forEach {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -69,7 +80,7 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
-        [titleLabel, statisticStackView, infoStackView, descriptionLabel, likeButton].forEach {
+        [titleLabel, statisticStackView, infoStackView, descriptionLabel].forEach {
             contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -77,6 +88,10 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
     
     
     private func configureConstraints() {
+        
+        
+        
+        
         
         statisticStackView.axis = NSLayoutConstraint.Axis.horizontal
         statisticStackView.spacing = 8
@@ -94,22 +109,30 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
             infoStackView.addArrangedSubview($0)
         }
         
+        imageBackgroundHeightConstraint = imageBackgroundView.heightAnchor.constraint(equalToConstant: Constants.backgroundHeight)
+        
+        coverTopConstraint = coverMovieView.topAnchor.constraint(equalTo: blurBackgroundView.topAnchor, constant: 32)
+        coverHeightConstraint = coverMovieView.heightAnchor.constraint(equalToConstant: Constants.coverHeight)
+        coverWidhtConstraint = coverMovieView.widthAnchor.constraint(equalToConstant: Constants.coverHeight/1.5)
+        
         NSLayoutConstraint.activate([
             
             imageBackgroundView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
             imageBackgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
             imageBackgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
-            imageBackgroundView.heightAnchor.constraint(equalToConstant: 464),
+            imageBackgroundHeightConstraint,
             
             blurBackgroundView.topAnchor.constraint(equalTo: imageBackgroundView.topAnchor, constant: 0),
             blurBackgroundView.leadingAnchor.constraint(equalTo: imageBackgroundView.leadingAnchor, constant: 0),
             blurBackgroundView.trailingAnchor.constraint(equalTo: imageBackgroundView.trailingAnchor, constant: 0),
             blurBackgroundView.bottomAnchor.constraint(equalTo: imageBackgroundView.bottomAnchor, constant: 0),
             
-            coverMovieView.topAnchor.constraint(equalTo: blurBackgroundView.topAnchor, constant: 32),
+//            coverMovieView.topAnchor.constraint(equalTo: blurBackgroundView.topAnchor, constant: 32),
+            coverTopConstraint,
             coverMovieView.centerXAnchor.constraint(equalTo: blurBackgroundView.centerXAnchor, constant: 0),
-            coverMovieView.widthAnchor.constraint(equalToConstant: 264),
-            coverMovieView.heightAnchor.constraint(equalToConstant: 264*1.5),
+            coverWidhtConstraint,
+            coverHeightConstraint,
+//            coverMovieView.heightAnchor.constraint(equalToConstant: Constants.coverHeight),
             
             scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             scrollView.widthAnchor.constraint(equalTo: view.widthAnchor),
@@ -161,6 +184,7 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
         
         coverMovieView.layer.cornerRadius = 16
         coverMovieView.clipsToBounds = true
+        coverMovieView.contentMode = .scaleAspectFill
         
         view.backgroundColor = Colors.primaryBackgroundColor
         titleLabel.font = FontStyle.regularTitleFont
@@ -176,11 +200,31 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
         scrollView.clipsToBounds = true
         scrollView.contentInset.top = 408
         
-        likeButton.iconButton.image = UIImage(named: "Ico_Tile")
+        likeButton.iconButton.image = UIImage(named: "Ico_Heart_Stroked")
         
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        print(scrollView.contentOffset.y)
+        if scrollView.contentOffset.y < -408 {
+            imageBackgroundHeightConstraint.constant = Constants.backgroundHeight - scrollView.contentOffset.y - 408
+            
+            coverHeightConstraint.constant = Constants.coverHeight - scrollView.contentOffset.y - 408
+            coverWidhtConstraint.constant = coverHeightConstraint.constant/1.5
+        } else {
+            imageBackgroundHeightConstraint.constant = Constants.backgroundHeight - scrollView.contentOffset.y - 408
+                            // Scrolling up: Parallax
+//                        let parallaxFactor: CGFloat = 0.1
+//                        let offsetY = scrollView.contentOffset.y * parallaxFactor
+//                        let minOffsetY: CGFloat = 2.0
+//                        let availableOffset = min(offsetY, minOffsetY)
+//                        let contentRectOffsetY = availableOffset / Constants.coverHeight
+//                        coverTopConstraint?.constant = view.frame.origin.y
+//                        coverHeightConstraint?.constant = Constants.coverHeight - scrollView.contentOffset.y - 408
+//                        coverWidhtConstraint.constant = coverHeightConstraint.constant/1.5
+//                        coverMovieView.layer.contentsRect = CGRect(x: 0, y: -contentRectOffsetY, width: 2, height: 3)
+        }
+        
         
         if scrollView.contentOffset.y > -116 {
             
@@ -194,26 +238,18 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
             })
         }
         
-        
-        //        if scrollView.contentOffset.y > -408 {
-        //            print("\(scrollView.contentOffset.y)")
-        //            //            let y = 300 - (scrollView.contentOffset.y + 300)
-        //            //            imageBackgroundView.frame = CGRect(x: 0, y: y, width: scrollView.frame.width, height: 300)
-        //            //            likeButton.isHidden = true
-        //        } else {
-        //            print("\(scrollView.contentOffset.y)")
-        //            //                    Scrolling up: Parallax
-        //            //                    let parallaxFactor: CGFloat = 0.25
-        //            //                    let offsetY = scrollView.contentOffset.y * parallaxFactor
-        //            //                    let minOffsetY: CGFloat = 8.0
-        //            //                    let availableOffset = min(offsetY, minOffsetY)
-        //            //                    let contentRectOffsetY = availableOffset / Constants.headerHeight
-        //            //                    headerTopConstraint?.constant = view.frame.origin.y
-        //            //                    headerHeightConstraint?.constant =
-        //            //                        Constants.headerHeight - scrollView.contentOffset.y
-        //            //                    headerImageView.layer.contentsRect =
-        //            //                        CGRect(x: 0, y: -contentRectOffsetY, width: 1, height: 1)
-        //        }
+        if scrollView.contentOffset.y > -148 {
+            
+            UIView.animate(withDuration: 0.5, animations: {
+                self.coverMovieView.transform = CGAffineTransform(scaleX: 0.001, y: 0.001)
+            })
+            
+        } else {
+            UIView.animate(withDuration: 0.5, animations: {
+                self.coverMovieView.transform = CGAffineTransform(scaleX: 1, y: 1)
+            })
+        }
+
         
     }
     
