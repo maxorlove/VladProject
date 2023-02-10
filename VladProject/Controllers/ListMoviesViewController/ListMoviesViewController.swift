@@ -146,6 +146,7 @@ class ListMoviesViewController: UIViewController {
         collectionView.backgroundColor = Colors.primaryBackgroundColor
         collectionView.register(MovieListViewCell.self, forCellWithReuseIdentifier: CellConstants.listCellReuseId)
         collectionView.register(MovieTileViewCell.self, forCellWithReuseIdentifier: CellConstants.gridCellReuseId)
+        collectionView.contentInset.bottom = 96
 
     }
     
