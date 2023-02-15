@@ -1,13 +1,13 @@
 //
-//  ProfileViewController.swift
+//  MovieDetailsViewController.swift
 //  VladProject
 //
-//  Created by Vladislav Kitov on 05.02.2023.
+//  Created by Vladislav Kitov on 15.02.2023.
 //
 
 import UIKit
 
-class ProfileViewController: UIViewController, UIScrollViewDelegate {
+class MovieDetailsViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: - Constants
     
@@ -48,6 +48,9 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
     
     private let descriptionLabel = UILabel()
     
+    weak var delegate: MovieDetailsViewDelegate?
+    
+    var currentMovie: Movie?
     
     // MARK: - LifeCycle
     
@@ -64,7 +67,7 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
         addSubviews()
         configureConstraints()
         setupStyles()
-        configureMovieData()
+//        configureMovieData()
     }
     
     
@@ -164,8 +167,9 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
     }
 
     private func setupNavigationBar() {
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.largeTitleTextAttributes = AttributedFontStyle.largeFont
+        self.navigationController?.navigationBar.prefersLargeTitles = false
+//        navigationController?.navigationBar.largeTitleTextAttributes = AttributedFontStyle.largeFont
+        self.navigationController?.navigationItem.largeTitleDisplayMode = .never
     }
     
     private func setupStyles() {
@@ -236,21 +240,24 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
-    private func configureMovieData() {
-        imageBackgroundView.image = UIImage(named: "Cover 1")
-        coverMovieView.image = UIImage(named: "Cover 1")
+    func configureMovieData(with movie: Movie) {
         
-        titleLabel.text = "Avatar: The Way of Water"
+        currentMovie = movie
+        let path = currentMovie!.posterPath
+        print(path)
+        let url = URL(string: "https://image.tmdb.org/t/p/original/\(path)")
+        imageBackgroundView.sd_setImage(with: url)
+        coverMovieView.sd_setImage(with: url)
         
-        rateView.configureData(setValue: "8.7", setDescription: "Rating")
-        voteView.configureData(setValue: "23200", setDescription: "Vote count")
-        popularityView.configureData(setValue: "87.951", setDescription: "Popularity")
+        titleLabel.text = currentMovie?.originalTitle
+        rateView.configureData(setValue: "\(currentMovie?.voteAverage ?? 0)", setDescription: "Rating")
+
+        voteView.configureData(setValue: "\(currentMovie?.voteCount ?? 0)", setDescription: "Vote count")
+        popularityView.configureData(setValue: "\(currentMovie?.popularity ?? 0)", setDescription: "Popularity")
         
-        releaseDateView.configureData(setValue: "2022-12-14", setDescription: "Release date")
-        languageView.configureData(setValue: "en", setDescription: "Language")
+        releaseDateView.configureData(setValue: currentMovie?.releaseDate ?? "Unknown", setDescription: "Release date")
+        languageView.configureData(setValue: currentMovie!.originalLanguage, setDescription: "Language")
         
-        descriptionLabel.text = "Framed in the 1940s for the double murder of his wife and her lover, upstanding banker Andy Dufresne begins a new life at the Shawshank prison, where he puts his accounting skills to work for an amoral warden. During his long stretch in prison, Dufresne comes to be admired by the other inmates -- including an older prisoner named Red -- for his integrity and unquenchable sense of hope."
+        descriptionLabel.text = currentMovie?.overview
     }
 }
-
-

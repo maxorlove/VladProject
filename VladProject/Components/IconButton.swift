@@ -23,7 +23,7 @@ class IconButton: UIButton {
     
     // MARK: - Propetrties
     
-    let iconButton = UIImageView()
+    let iconView = UIImageView()
     private let customBlurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .systemThinMaterial))
     let generator = UIImpactFeedbackGenerator(style: .light)
     
@@ -32,7 +32,7 @@ class IconButton: UIButton {
     
     init(setIcon: String) {
         super.init(frame: .zero)
-        iconButton.image = UIImage(named: setIcon)
+        iconView.image = UIImage(named: setIcon)
         configureView()
     }
     
@@ -56,7 +56,7 @@ class IconButton: UIButton {
     
     private func addSubviews() {
         
-        [customBlurEffectView, iconButton].forEach {
+        [customBlurEffectView, iconView].forEach {
             self.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -75,12 +75,12 @@ class IconButton: UIButton {
             customBlurEffectView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             customBlurEffectView.topAnchor.constraint(equalTo: self.topAnchor),
             
-            iconButton.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            iconButton.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            iconView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            iconView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
 //            iconButton.leadingAnchor.constraint(equalTo: self.trailingAnchor, constant: 8),
 //            iconButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -12),
-            iconButton.heightAnchor.constraint(equalToConstant: 24),
-            iconButton.widthAnchor.constraint(equalToConstant: 24),
+            iconView.heightAnchor.constraint(equalToConstant: 24),
+            iconView.widthAnchor.constraint(equalToConstant: 24),
             
         ])
     }
@@ -89,7 +89,7 @@ class IconButton: UIButton {
 //        self.backgroundColor = Colors.primarySurfaceColor
         self.layer.cornerRadius = 20
         self.clipsToBounds = true
-        iconButton.tintColor = Colors.primaryTextOnSurfaceColor
+        iconView.tintColor = Colors.primaryTextOnSurfaceColor
         
         customBlurEffectView.isUserInteractionEnabled = false
         self.addTarget(self, action: #selector(animateDecrease), for: .touchDown)

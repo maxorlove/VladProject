@@ -7,7 +7,13 @@
 
 import UIKit
 
-class ListMoviesViewController: UIViewController {
+protocol MovieDetailsViewDelegate: AnyObject {
+//    func contactUpdated(with contact: User)
+//    func removeContact(with contact: User)
+//    func addNewContact(with contact: User)
+}
+
+class MovieListViewController: UIViewController {
     
     // MARK: - Constants
     
@@ -161,6 +167,17 @@ class ListMoviesViewController: UIViewController {
         switchButton.addTarget(self, action: #selector(switchTappedButton), for: .touchUpInside)
     }
     
+    func openMovieDetailsViewController(with movie: Movie) {
+        let movieView = MovieDetailsViewController()
+        movieView.configureMovieData(with: movie)
+        //present(profileView, animated: true)
+        navigationController?.pushViewController(movieView, animated: true)
+        
+        // Саму переменную delegate создаём на ProfileViewController, чтобы у того был доступ к методу contactUpdated. self означает, что в переменную на другом экране мы помещаем ссылку на текущий контроллер, чтобы разрешить управление собой
+        movieView.delegate = self
+        
+    }
+    
     
     // Вызов Action Sheet для сортировки
     
@@ -205,10 +222,10 @@ class ListMoviesViewController: UIViewController {
     
     @objc func switchTappedButton() {
         if currentLayout == .grid {
-            switchButton.iconButton.image = UIImage(named: "Ico_Tile")
+            switchButton.iconView.image = UIImage(named: "Ico_Tile")
             currentLayout = .list
         } else {
-            switchButton.iconButton.image = UIImage(named: "Ico_List")
+            switchButton.iconView.image = UIImage(named: "Ico_List")
             currentLayout = .grid
         }
         collectionView.reloadData()
@@ -219,7 +236,7 @@ class ListMoviesViewController: UIViewController {
 
 // MARK: - Extensions
 
-extension ListMoviesViewController: UICollectionViewDataSource {
+extension MovieListViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dataSource.count
@@ -249,7 +266,7 @@ extension ListMoviesViewController: UICollectionViewDataSource {
     }
 }
 
-extension ListMoviesViewController: UICollectionViewDelegateFlowLayout {
+extension MovieListViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
@@ -280,4 +297,33 @@ extension ListMoviesViewController: UICollectionViewDelegateFlowLayout {
             return CellConstants.spacingForList
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let movieIndex = indexPath.row
+        let movie = dataSource[movieIndex]
+        openMovieDetailsViewController(with: movie)
+    }
+    
+}
+
+extension MovieListViewController: MovieDetailsViewDelegate {
+
+//    func contactUpdated(with profile: User) {
+//        let index = contacts.firstIndex(where: {$0.id == profile.id})
+//        contacts[index!].isSubscribed = profile.isSubscribed
+//        profileListTableView.reloadData()
+//    }
+//
+//    func removeContact(with profile: User) {
+//        let index = contacts.firstIndex(where: {$0.id == profile.id})
+//        contacts.remove(at: index!)
+//        counterContacts.configureData(array: contacts)
+//        profileListTableView.reloadData()
+//    }
+//
+//    func addNewContact(with contact: User) {
+//        contacts.append(contact)
+//        counterContacts.configureData(array: contacts)
+//        profileListTableView.reloadData()
+//    }
 }

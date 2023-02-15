@@ -13,14 +13,7 @@ class RatingView: UIView {
     
     // MARK: - Struct
     
-    struct RatingViewModel {
-        
-        enum Size: String {
-            case Large = "Ico_Tile"
-            case Regular = "Ico_List"
-        }
-        
-    }
+    
     
     // MARK: - Propetrties
     
@@ -68,7 +61,6 @@ class RatingView: UIView {
         
         NSLayoutConstraint.activate([
             self.heightAnchor.constraint(equalToConstant: 40),
-//            self.widthAnchor.constraint(equalToConstant: 64),
             
             backgroundView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             backgroundView.topAnchor.constraint(equalTo: self.topAnchor),
