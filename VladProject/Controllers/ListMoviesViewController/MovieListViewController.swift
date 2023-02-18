@@ -68,7 +68,6 @@ class MovieListViewController: UIViewController {
     private let tileViewCell = MovieTileViewCell()
     private let listViewCell = MovieListViewCell()
     
-    private let screenTitle = UILabel()
     private let selectButton = SelectButton(label: "Popular")
     private var switchButton = IconButton(setIcon: "Ico_List")
     private let sortStack = UIStackView()
@@ -85,6 +84,7 @@ class MovieListViewController: UIViewController {
         setupView()
         loadData(loadType: .load, sorting: currentSorting, for: 1)
     }
+
     
     private func loadData(loadType: LoadType, sorting sort: String, for page: Int) {
         networkClient.allMovies(sort: sort, page: page) { [weak self] result in
@@ -118,7 +118,7 @@ class MovieListViewController: UIViewController {
     }
     
     private func addSubviews() {
-        [collectionView, screenTitle, sortStack, selectButton, switchButton].forEach {
+        [collectionView, sortStack, selectButton, switchButton].forEach {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -127,9 +127,9 @@ class MovieListViewController: UIViewController {
     private func configureConstraints() {
         
         NSLayoutConstraint.activate([
-            screenTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 104),
-            screenTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
-            screenTitle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
+//            screenTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 104),
+//            screenTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+//            screenTitle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
             sortStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
             sortStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 8),

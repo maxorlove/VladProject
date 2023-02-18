@@ -58,7 +58,10 @@ class MovieDetailsViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         scrollView.delegate = self
         setupView()
+        
     }
+    
+    // UICollectionViewHeader
     
     
     // MARK: - Methods
@@ -67,14 +70,14 @@ class MovieDetailsViewController: UIViewController, UIScrollViewDelegate {
         addSubviews()
         configureConstraints()
         setupStyles()
-//        configureMovieData()
+        setupNavigationBar()
     }
     
     
     private func addSubviews() {
         //
-        [imageBackgroundView, blurBackgroundView, coverMovieView, scrollView, likeButton].forEach {
-            view.addSubview($0)
+        [titleLabel, statisticStackView, infoStackView, descriptionLabel].forEach {
+            contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
@@ -83,10 +86,12 @@ class MovieDetailsViewController: UIViewController, UIScrollViewDelegate {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
-        [titleLabel, statisticStackView, infoStackView, descriptionLabel].forEach {
-            contentView.addSubview($0)
+        [imageBackgroundView, blurBackgroundView, coverMovieView, scrollView, likeButton].forEach {
+            view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
+        
+        
     }
     
     
@@ -126,17 +131,11 @@ class MovieDetailsViewController: UIViewController, UIScrollViewDelegate {
             blurBackgroundView.trailingAnchor.constraint(equalTo: imageBackgroundView.trailingAnchor, constant: 0),
             blurBackgroundView.bottomAnchor.constraint(equalTo: imageBackgroundView.bottomAnchor, constant: 0),
             
-            //            coverMovieView.topAnchor.constraint(equalTo: blurBackgroundView.topAnchor, constant: 32),
             coverTopConstraint,
             coverMovieView.centerXAnchor.constraint(equalTo: blurBackgroundView.centerXAnchor, constant: 0),
             coverWidhtConstraint,
             coverHeightConstraint,
-            //            coverMovieView.heightAnchor.constraint(equalToConstant: Constants.coverHeight),
             
-            scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            scrollView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
             likeButton.bottomAnchor.constraint(equalTo: contentView.topAnchor, constant: -24),
             likeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
@@ -161,15 +160,20 @@ class MovieDetailsViewController: UIViewController, UIScrollViewDelegate {
             descriptionLabel.topAnchor.constraint(equalTo: infoStackView.bottomAnchor, constant: 40),
             descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 32),
             descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -32),
-            descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -64) //Важный констрейнт для работы скролла
+            descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -64), //Важный констрейнт для работы скролла
+            scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            scrollView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
         ])
         
     }
 
     private func setupNavigationBar() {
-        self.navigationController?.navigationBar.prefersLargeTitles = false
-//        navigationController?.navigationBar.largeTitleTextAttributes = AttributedFontStyle.largeFont
-        self.navigationController?.navigationItem.largeTitleDisplayMode = .never
+        navigationItem.largeTitleDisplayMode = .never
+        let nav = self.navigationController?.navigationBar
+        nav?.tintColor = Colors.primaryTextOnBackgroundColor
+        
     }
     
     private func setupStyles() {
@@ -196,7 +200,7 @@ class MovieDetailsViewController: UIViewController, UIScrollViewDelegate {
         
         contentView.backgroundColor = Colors.primaryBackgroundColor
         contentView.layer.cornerRadius = 32
-        scrollView.clipsToBounds = true
+//        scrollView.clipsToBounds = true
         scrollView.contentInset.top = 408
         
         likeButton.iconView.image = Icons.heartStroked.image
@@ -231,13 +235,22 @@ class MovieDetailsViewController: UIViewController, UIScrollViewDelegate {
             
             UIView.animate(withDuration: 0.3, animations: {
                 self.likeButton.transform = CGAffineTransform(scaleX: 0.001, y: 0.001)
+                self.coverMovieView.isHidden = true
             })
             
         } else {
             UIView.animate(withDuration: 0.3, animations: {
                 self.likeButton.transform = CGAffineTransform(scaleX: 1, y: 1)
+                self.coverMovieView.isHidden = false
             })
         }
+        
+        if scrollView.contentOffset.y > 0 {
+            self.coverMovieView.isHidden = true
+        } else {
+            self.coverMovieView.isHidden = false
+        }
+        
     }
     
     func configureMovieData(with movie: Movie) {
