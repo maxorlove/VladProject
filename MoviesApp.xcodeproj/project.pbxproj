@@ -231,7 +231,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 7FA98053295B24180053E050 /* Build configuration list for PBXProject "VladProject" */;
+			buildConfigurationList = 7FA98053295B24180053E050 /* Build configuration list for PBXProject "MoviesApp" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -480,7 +480,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7FA98053295B24180053E050 /* Build configuration list for PBXProject "VladProject" */ = {
+		7FA98053295B24180053E050 /* Build configuration list for PBXProject "MoviesApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7FA9806A295B24190053E050 /* Debug */,

@@ -67,7 +67,7 @@ class MovieListViewController: UIViewController {
     
     private let tileViewCell = MovieTileViewCell()
     private let listViewCell = MovieListViewCell()
-    
+    private let activityIndicator = UIActivityIndicatorView(style: .large)
     private let selectButton = SelectButton(label: "Popular")
     private var switchButton = IconButton(setIcon: "Ico_List")
     private let sortStack = UIStackView()
@@ -83,6 +83,7 @@ class MovieListViewController: UIViewController {
         // Do any additional setup after loading the view.
         setupView()
         loadData(loadType: .load, sorting: currentSorting, for: 1)
+        activityIndicator.startAnimating()
     }
 
     
@@ -97,6 +98,7 @@ class MovieListViewController: UIViewController {
                     }
                     
                     self?.dataSource.append(contentsOf: response.results)
+                    self?.totalPages = response.totalPages
                     self?.collectionView.reloadData()
                 }
             case .failure(let error):
@@ -187,7 +189,7 @@ class MovieListViewController: UIViewController {
             self.selectButton.setLabel(labelText: "Popular")
             self.currentSorting = TypeSorting.popular
             self.loadData(loadType: .reload, sorting: self.currentSorting, for: 1)
-            
+            self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
             UIView.animate(withDuration: 0.2) { self.view.layoutIfNeeded() }
         }
         
@@ -195,7 +197,7 @@ class MovieListViewController: UIViewController {
             self.selectButton.setLabel(labelText: "Now playing")
             self.currentSorting = TypeSorting.nowPlaying
             self.loadData(loadType: .reload, sorting: self.currentSorting, for: 1)
-            
+            self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
             UIView.animate(withDuration: 0.2) { self.view.layoutIfNeeded() }
         }
         
@@ -203,7 +205,7 @@ class MovieListViewController: UIViewController {
             self.selectButton.setLabel(labelText: "Top rated")
             self.currentSorting = TypeSorting.topRated
             self.loadData(loadType: .reload, sorting: self.currentSorting, for: 1)
-            
+            self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
             UIView.animate(withDuration: 0.2) { self.view.layoutIfNeeded() }
         }
         
@@ -302,6 +304,13 @@ extension MovieListViewController: UICollectionViewDelegateFlowLayout {
         let movieIndex = indexPath.row
         let movie = dataSource[movieIndex]
         openMovieDetailsViewController(with: movie)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if dataSource.count - 3 == indexPath.row, currentPage < totalPages {
+            currentPage += 1
+            loadData(loadType: .load, sorting: currentSorting, for: currentPage)
+        }
     }
     
 }

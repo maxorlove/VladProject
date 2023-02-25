@@ -257,7 +257,6 @@ class MovieDetailsViewController: UIViewController, UIScrollViewDelegate {
         
         currentMovie = movie
         let path = currentMovie!.posterPath
-        print(path)
         let url = URL(string: "https://image.tmdb.org/t/p/original/\(path)")
         imageBackgroundView.sd_setImage(with: url)
         coverMovieView.sd_setImage(with: url)
