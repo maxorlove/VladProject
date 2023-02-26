@@ -44,8 +44,8 @@ class MovieListViewCell: UICollectionViewCell {
             imageView.widthAnchor.constraint(equalToConstant: 136),
             imageView.heightAnchor.constraint(equalToConstant: 204),
             
-            rateView.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -8),
-            rateView.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -8),
+            rateView.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -4),
+            rateView.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -4),
             
             titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 24),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
@@ -63,9 +63,9 @@ class MovieListViewCell: UICollectionViewCell {
         imageView.backgroundColor = Colors.secondaryBackgroundColor
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 16
+        imageView.layer.cornerRadius = 24
         
-        titleLabel.font = FontStyle.mediumTitleFont
+        titleLabel.font = FontStyle.smallTitleFont
         titleLabel.textColor = Colors.primaryTextOnBackgroundColor
         titleLabel.numberOfLines = 3
         

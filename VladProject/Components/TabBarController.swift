@@ -13,10 +13,10 @@ class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let listMoviesViewController = ListMoviesViewController()
-        listMoviesViewController.title = "Movies"
-        listMoviesViewController.tabBarItem = UITabBarItem(title: "", image: UIImage(named: "Ico_Compass"), selectedImage: nil)
-        let moviesView = UINavigationController.init(rootViewController: listMoviesViewController)
+        let movieListViewController = MovieListViewController()
+        movieListViewController.title = "Movies"
+        movieListViewController.tabBarItem = UITabBarItem(title: "", image: UIImage(named: "Ico_Compass"), selectedImage: nil)
+        let moviesView = UINavigationController.init(rootViewController: movieListViewController)
         
         
         let profileViewController = ProfileViewController()

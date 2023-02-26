@@ -50,7 +50,7 @@ extension RequestModel {
         let url = URL(string: urlString)!
         var request: URLRequest = URLRequest(url: url)
 
-        print(url)
+//        print(url)
         
         request.httpMethod = method.rawValue
 

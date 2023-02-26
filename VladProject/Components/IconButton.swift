@@ -7,32 +7,32 @@
 
 import UIKit
 
-class SwitchButton: UIButton {
+class IconButton: UIButton {
     
     // MARK: - Struct
 
-    struct SwitchButtonViewModel {
-
-         enum View: String {
-             case ToTile = "Ico_Tile"
-             case ToList = "Ico_List"
-         }
-        
-    }
+//    struct SwitchButtonViewModel {
+//
+//         enum View: String {
+//             case ToTile = "Ico_Tile"
+//             case ToList = "Ico_List"
+//         }
+//
+//    }
     
     
     // MARK: - Propetrties
     
-    let iconButton = UIImageView()
+    let iconView = UIImageView()
     private let customBlurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .systemThinMaterial))
     let generator = UIImpactFeedbackGenerator(style: .light)
     
     
     // MARK: - LifeCycle
     
-    init(setIcon: SwitchButtonViewModel.View) {
+    init(setIcon: String) {
         super.init(frame: .zero)
-        iconButton.image = UIImage(named: setIcon.rawValue)
+        iconView.image = UIImage(named: setIcon)
         configureView()
     }
     
@@ -56,7 +56,7 @@ class SwitchButton: UIButton {
     
     private func addSubviews() {
         
-        [customBlurEffectView, iconButton].forEach {
+        [customBlurEffectView, iconView].forEach {
             self.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -67,19 +67,20 @@ class SwitchButton: UIButton {
         self.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            self.heightAnchor.constraint(equalToConstant: 48),
-            self.widthAnchor.constraint(equalToConstant: 48),
+            self.heightAnchor.constraint(equalToConstant: 56),
+            self.widthAnchor.constraint(equalToConstant: 56),
             
             customBlurEffectView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             customBlurEffectView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             customBlurEffectView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             customBlurEffectView.topAnchor.constraint(equalTo: self.topAnchor),
             
-            iconButton.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            iconButton.leadingAnchor.constraint(equalTo: self.trailingAnchor, constant: 8),
-            iconButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -12),
-            iconButton.heightAnchor.constraint(equalToConstant: 24),
-            iconButton.widthAnchor.constraint(equalToConstant: 24),
+            iconView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            iconView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+//            iconButton.leadingAnchor.constraint(equalTo: self.trailingAnchor, constant: 8),
+//            iconButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -12),
+            iconView.heightAnchor.constraint(equalToConstant: 24),
+            iconView.widthAnchor.constraint(equalToConstant: 24),
             
         ])
     }
@@ -88,7 +89,7 @@ class SwitchButton: UIButton {
 //        self.backgroundColor = Colors.primarySurfaceColor
         self.layer.cornerRadius = 20
         self.clipsToBounds = true
-        iconButton.tintColor = Colors.primaryTextOnSurfaceColor
+        iconView.tintColor = Colors.primaryTextOnSurfaceColor
         
         customBlurEffectView.isUserInteractionEnabled = false
         self.addTarget(self, action: #selector(animateDecrease), for: .touchDown)
@@ -99,7 +100,7 @@ class SwitchButton: UIButton {
         UIView.animate(withDuration: 0.3, animations: {
             self.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
         })
-        generator.impactOccurred()
+//        generator.impactOccurred()
     }
     
     @objc func animateIncrease() {

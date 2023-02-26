@@ -1,13 +1,13 @@
 //
-//  ProfileViewController.swift
+//  MovieDetailsViewController.swift
 //  VladProject
 //
-//  Created by Vladislav Kitov on 05.02.2023.
+//  Created by Vladislav Kitov on 15.02.2023.
 //
 
 import UIKit
 
-class ProfileViewController: UIViewController, UIScrollViewDelegate {
+class MovieDetailsViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: - Constants
     
@@ -48,6 +48,9 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
     
     private let descriptionLabel = UILabel()
     
+    weak var delegate: MovieDetailsViewDelegate?
+    
+    var currentMovie: Movie?
     
     // MARK: - LifeCycle
     
@@ -55,7 +58,10 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         scrollView.delegate = self
         setupView()
+        
     }
+    
+    // UICollectionViewHeader
     
     
     // MARK: - Methods
@@ -64,14 +70,14 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
         addSubviews()
         configureConstraints()
         setupStyles()
-        configureMovieData()
+        setupNavigationBar()
     }
     
     
     private func addSubviews() {
         //
-        [imageBackgroundView, blurBackgroundView, coverMovieView, scrollView, likeButton].forEach {
-            view.addSubview($0)
+        [titleLabel, statisticStackView, infoStackView, descriptionLabel].forEach {
+            contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
@@ -80,10 +86,12 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
-        [titleLabel, statisticStackView, infoStackView, descriptionLabel].forEach {
-            contentView.addSubview($0)
+        [imageBackgroundView, blurBackgroundView, coverMovieView, scrollView, likeButton].forEach {
+            view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
+        
+        
     }
     
     
@@ -123,17 +131,11 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
             blurBackgroundView.trailingAnchor.constraint(equalTo: imageBackgroundView.trailingAnchor, constant: 0),
             blurBackgroundView.bottomAnchor.constraint(equalTo: imageBackgroundView.bottomAnchor, constant: 0),
             
-            //            coverMovieView.topAnchor.constraint(equalTo: blurBackgroundView.topAnchor, constant: 32),
             coverTopConstraint,
             coverMovieView.centerXAnchor.constraint(equalTo: blurBackgroundView.centerXAnchor, constant: 0),
             coverWidhtConstraint,
             coverHeightConstraint,
-            //            coverMovieView.heightAnchor.constraint(equalToConstant: Constants.coverHeight),
             
-            scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            scrollView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
             likeButton.bottomAnchor.constraint(equalTo: contentView.topAnchor, constant: -24),
             likeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
@@ -158,14 +160,20 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
             descriptionLabel.topAnchor.constraint(equalTo: infoStackView.bottomAnchor, constant: 40),
             descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 32),
             descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -32),
-            descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -64) //Важный констрейнт для работы скролла
+            descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -64), //Важный констрейнт для работы скролла
+            scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            scrollView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
         ])
         
     }
 
     private func setupNavigationBar() {
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.largeTitleTextAttributes = AttributedFontStyle.largeFont
+        navigationItem.largeTitleDisplayMode = .never
+        let nav = self.navigationController?.navigationBar
+        nav?.tintColor = Colors.primaryTextOnBackgroundColor
+        
     }
     
     private func setupStyles() {
@@ -192,7 +200,7 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
         
         contentView.backgroundColor = Colors.primaryBackgroundColor
         contentView.layer.cornerRadius = 32
-        scrollView.clipsToBounds = true
+//        scrollView.clipsToBounds = true
         scrollView.contentInset.top = 408
         
         likeButton.iconView.image = Icons.heartStroked.image
@@ -227,30 +235,41 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
             
             UIView.animate(withDuration: 0.3, animations: {
                 self.likeButton.transform = CGAffineTransform(scaleX: 0.001, y: 0.001)
+                self.coverMovieView.isHidden = true
             })
             
         } else {
             UIView.animate(withDuration: 0.3, animations: {
                 self.likeButton.transform = CGAffineTransform(scaleX: 1, y: 1)
+                self.coverMovieView.isHidden = false
             })
         }
+        
+        if scrollView.contentOffset.y > 0 {
+            self.coverMovieView.isHidden = true
+        } else {
+            self.coverMovieView.isHidden = false
+        }
+        
     }
     
-    private func configureMovieData() {
-        imageBackgroundView.image = UIImage(named: "Cover 1")
-        coverMovieView.image = UIImage(named: "Cover 1")
+    func configureMovieData(with movie: Movie) {
         
-        titleLabel.text = "Avatar: The Way of Water"
+        currentMovie = movie
+        let path = currentMovie!.posterPath
+        let url = URL(string: "https://image.tmdb.org/t/p/original/\(path)")
+        imageBackgroundView.sd_setImage(with: url)
+        coverMovieView.sd_setImage(with: url)
         
-        rateView.configureData(setValue: "8.7", setDescription: "Rating")
-        voteView.configureData(setValue: "23200", setDescription: "Vote count")
-        popularityView.configureData(setValue: "87.951", setDescription: "Popularity")
+        titleLabel.text = currentMovie?.originalTitle
+        rateView.configureData(setValue: "\(currentMovie?.voteAverage ?? 0)", setDescription: "Rating")
+
+        voteView.configureData(setValue: "\(currentMovie?.voteCount ?? 0)", setDescription: "Vote count")
+        popularityView.configureData(setValue: "\(currentMovie?.popularity ?? 0)", setDescription: "Popularity")
         
-        releaseDateView.configureData(setValue: "2022-12-14", setDescription: "Release date")
-        languageView.configureData(setValue: "en", setDescription: "Language")
+        releaseDateView.configureData(setValue: currentMovie?.releaseDate ?? "Unknown", setDescription: "Release date")
+        languageView.configureData(setValue: currentMovie!.originalLanguage, setDescription: "Language")
         
-        descriptionLabel.text = "Framed in the 1940s for the double murder of his wife and her lover, upstanding banker Andy Dufresne begins a new life at the Shawshank prison, where he puts his accounting skills to work for an amoral warden. During his long stretch in prison, Dufresne comes to be admired by the other inmates -- including an older prisoner named Red -- for his integrity and unquenchable sense of hope."
+        descriptionLabel.text = currentMovie?.overview
     }
 }
-
-

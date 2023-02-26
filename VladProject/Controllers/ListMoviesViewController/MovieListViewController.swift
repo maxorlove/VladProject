@@ -7,7 +7,13 @@
 
 import UIKit
 
-class ListMoviesViewController: UIViewController {
+protocol MovieDetailsViewDelegate: AnyObject {
+//    func contactUpdated(with contact: User)
+//    func removeContact(with contact: User)
+//    func addNewContact(with contact: User)
+}
+
+class MovieListViewController: UIViewController {
     
     // MARK: - Constants
     
@@ -61,14 +67,13 @@ class ListMoviesViewController: UIViewController {
     
     private let tileViewCell = MovieTileViewCell()
     private let listViewCell = MovieListViewCell()
-    
-    private let screenTitle = UILabel()
+    private let activityIndicator = UIActivityIndicatorView(style: .large)
     private let selectButton = SelectButton(label: "Popular")
-    private var switchButton = SwitchButton(setIcon: .ToList)
+    private var switchButton = IconButton(setIcon: "Ico_List")
     private let sortStack = UIStackView()
     
     private var currentSorting = TypeSorting.popular
-    var currentLayout: Layout = .list
+    var currentLayout: Layout = .grid
     
     
     // MARK: - LifeCycle
@@ -78,7 +83,9 @@ class ListMoviesViewController: UIViewController {
         // Do any additional setup after loading the view.
         setupView()
         loadData(loadType: .load, sorting: currentSorting, for: 1)
+        activityIndicator.startAnimating()
     }
+
     
     private func loadData(loadType: LoadType, sorting sort: String, for page: Int) {
         networkClient.allMovies(sort: sort, page: page) { [weak self] result in
@@ -91,6 +98,7 @@ class ListMoviesViewController: UIViewController {
                     }
                     
                     self?.dataSource.append(contentsOf: response.results)
+                    self?.totalPages = response.totalPages
                     self?.collectionView.reloadData()
                 }
             case .failure(let error):
@@ -112,7 +120,7 @@ class ListMoviesViewController: UIViewController {
     }
     
     private func addSubviews() {
-        [collectionView, screenTitle, sortStack, selectButton, switchButton].forEach {
+        [collectionView, sortStack, selectButton, switchButton].forEach {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -121,9 +129,9 @@ class ListMoviesViewController: UIViewController {
     private func configureConstraints() {
         
         NSLayoutConstraint.activate([
-            screenTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 104),
-            screenTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
-            screenTitle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
+//            screenTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 104),
+//            screenTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+//            screenTitle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
             sortStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
             sortStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 8),
@@ -146,6 +154,7 @@ class ListMoviesViewController: UIViewController {
         collectionView.backgroundColor = Colors.primaryBackgroundColor
         collectionView.register(MovieListViewCell.self, forCellWithReuseIdentifier: CellConstants.listCellReuseId)
         collectionView.register(MovieTileViewCell.self, forCellWithReuseIdentifier: CellConstants.gridCellReuseId)
+        collectionView.contentInset.bottom = 96
 
     }
     
@@ -160,6 +169,17 @@ class ListMoviesViewController: UIViewController {
         switchButton.addTarget(self, action: #selector(switchTappedButton), for: .touchUpInside)
     }
     
+    func openMovieDetailsViewController(with movie: Movie) {
+        let movieView = MovieDetailsViewController()
+        movieView.configureMovieData(with: movie)
+        //present(profileView, animated: true)
+        navigationController?.pushViewController(movieView, animated: true)
+        
+        // Саму переменную delegate создаём на ProfileViewController, чтобы у того был доступ к методу contactUpdated. self означает, что в переменную на другом экране мы помещаем ссылку на текущий контроллер, чтобы разрешить управление собой
+        movieView.delegate = self
+        
+    }
+    
     
     // Вызов Action Sheet для сортировки
     
@@ -169,7 +189,7 @@ class ListMoviesViewController: UIViewController {
             self.selectButton.setLabel(labelText: "Popular")
             self.currentSorting = TypeSorting.popular
             self.loadData(loadType: .reload, sorting: self.currentSorting, for: 1)
-            
+            self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
             UIView.animate(withDuration: 0.2) { self.view.layoutIfNeeded() }
         }
         
@@ -177,7 +197,7 @@ class ListMoviesViewController: UIViewController {
             self.selectButton.setLabel(labelText: "Now playing")
             self.currentSorting = TypeSorting.nowPlaying
             self.loadData(loadType: .reload, sorting: self.currentSorting, for: 1)
-            
+            self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
             UIView.animate(withDuration: 0.2) { self.view.layoutIfNeeded() }
         }
         
@@ -185,7 +205,7 @@ class ListMoviesViewController: UIViewController {
             self.selectButton.setLabel(labelText: "Top rated")
             self.currentSorting = TypeSorting.topRated
             self.loadData(loadType: .reload, sorting: self.currentSorting, for: 1)
-            
+            self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
             UIView.animate(withDuration: 0.2) { self.view.layoutIfNeeded() }
         }
         
@@ -204,11 +224,11 @@ class ListMoviesViewController: UIViewController {
     
     @objc func switchTappedButton() {
         if currentLayout == .grid {
+            switchButton.iconView.image = UIImage(named: "Ico_Tile")
             currentLayout = .list
-            switchButton.iconButton.image = UIImage(named: "Ico_Tile")
         } else {
+            switchButton.iconView.image = UIImage(named: "Ico_List")
             currentLayout = .grid
-            switchButton.iconButton.image = UIImage(named: "Ico_List")
         }
         collectionView.reloadData()
     }
@@ -218,7 +238,7 @@ class ListMoviesViewController: UIViewController {
 
 // MARK: - Extensions
 
-extension ListMoviesViewController: UICollectionViewDataSource {
+extension MovieListViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dataSource.count
@@ -248,7 +268,7 @@ extension ListMoviesViewController: UICollectionViewDataSource {
     }
 }
 
-extension ListMoviesViewController: UICollectionViewDelegateFlowLayout {
+extension MovieListViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
@@ -279,4 +299,40 @@ extension ListMoviesViewController: UICollectionViewDelegateFlowLayout {
             return CellConstants.spacingForList
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let movieIndex = indexPath.row
+        let movie = dataSource[movieIndex]
+        openMovieDetailsViewController(with: movie)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if dataSource.count - 3 == indexPath.row, currentPage < totalPages {
+            currentPage += 1
+            loadData(loadType: .load, sorting: currentSorting, for: currentPage)
+        }
+    }
+    
+}
+
+extension MovieListViewController: MovieDetailsViewDelegate {
+
+//    func contactUpdated(with profile: User) {
+//        let index = contacts.firstIndex(where: {$0.id == profile.id})
+//        contacts[index!].isSubscribed = profile.isSubscribed
+//        profileListTableView.reloadData()
+//    }
+//
+//    func removeContact(with profile: User) {
+//        let index = contacts.firstIndex(where: {$0.id == profile.id})
+//        contacts.remove(at: index!)
+//        counterContacts.configureData(array: contacts)
+//        profileListTableView.reloadData()
+//    }
+//
+//    func addNewContact(with contact: User) {
+//        contacts.append(contact)
+//        counterContacts.configureData(array: contacts)
+//        profileListTableView.reloadData()
+//    }
 }

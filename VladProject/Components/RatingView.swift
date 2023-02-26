@@ -13,14 +13,7 @@ class RatingView: UIView {
     
     // MARK: - Struct
     
-    struct RatingViewModel {
-        
-        enum Size: String {
-            case Large = "Ico_Tile"
-            case Regular = "Ico_List"
-        }
-        
-    }
+    
     
     // MARK: - Propetrties
     
@@ -67,8 +60,7 @@ class RatingView: UIView {
         self.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            self.heightAnchor.constraint(equalToConstant: 36),
-//            self.widthAnchor.constraint(equalToConstant: 64),
+            self.heightAnchor.constraint(equalToConstant: 40),
             
             backgroundView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             backgroundView.topAnchor.constraint(equalTo: self.topAnchor),
@@ -89,13 +81,13 @@ class RatingView: UIView {
     }
     
     private func configureStyles() {
-        self.layer.cornerRadius = 12
+        self.layer.cornerRadius = 20
         self.clipsToBounds = true
         
         iconView.image = UIImage(named: "Ico_Star_Filled")
         iconView.tintColor = Colors.accentTextColor
         
-        labelView.font = FontStyle.subtitleFont
+        labelView.font = FontStyle.smallFont
         labelView.textColor = Colors.accentTextColor
 
     }
