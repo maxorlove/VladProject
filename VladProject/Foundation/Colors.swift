@@ -22,7 +22,11 @@ enum Colors {
     static let secondarySurfaceColor = UIColor(named: "secondarySurfaceColor")
     
 //  Backgrounds
+    
+    /// White
     static let primaryBackgroundColor = UIColor(named: "primaryBackgroundColor")
+    
+    /// Light Gray
     static let secondaryBackgroundColor = UIColor(named: "secondaryBackgroundColor")
     
 }

@@ -42,6 +42,6 @@ enum AttributedFontStyle {
     
     // Headers
     static let largeFont = [NSAttributedString.Key.font: FontStyle.largeTitleFont]
-
+    static let subtitleFont = [NSAttributedString.Key.font: FontStyle.subtitleFont]
 }
 

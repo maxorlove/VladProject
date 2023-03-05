@@ -7,53 +7,33 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController, UIScrollViewDelegate {
+protocol ProfileViewDelegate: AnyObject {
+    func configureData()
+//    func contactUpdated(with contact: User)
+//    func removeContact(with contact: User)
+//    func addNewContact(with contact: User)
+}
+
+class ProfileViewController: UIViewController, UIScrollViewDelegate, ProfileViewDelegate {
     
     // MARK: - Constants
     
-    struct Constants {
-        static let backgroundHeight: CGFloat = 464
-        static let coverHeight: CGFloat = 396
-    }
+
     
     
     // MARK: - Propetrties
+    private let defaults = UserDefaults.standard
+    private let avatarView = AvatarView(setSize: .medium)
+    private let usernameLabel = UILabel()
+    private let emailLabel = UILabel()
+    private let labelStack = UIStackView()
     
-    private let scrollView = UIScrollView()
-    private let contentView = UIView()
-    
-    private let imageBackgroundView = UIImageView()
-    private var imageBackgroundHeightConstraint: NSLayoutConstraint!
-    
-    private let blurBackgroundView = UIVisualEffectView(effect: UIBlurEffect(style: .prominent))
-    
-    
-    private let coverMovieView = UIImageView()
-    private var coverTopConstraint: NSLayoutConstraint!
-    private var coverHeightConstraint: NSLayoutConstraint!
-    private var coverWidhtConstraint: NSLayoutConstraint!
-    
-    private let likeButton = IconButton()
-    
-    private let titleLabel = UILabel()
-    
-    private let rateView = CardInfoView(setIcon: .True, iconImage: Icons.starFilled)
-    private let voteView = CardInfoView()
-    private let popularityView = CardInfoView()
-    private let statisticStackView = UIStackView()
-    
-    private let releaseDateView = TextInfoView()
-    private let languageView = TextInfoView()
-    private let infoStackView = UIStackView()
-    
-    private let descriptionLabel = UILabel()
     
     
     // MARK: - LifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        scrollView.delegate = self
         setupView()
     }
     
@@ -61,196 +41,72 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - Methods
     
     private func setupView() {
-        addSubviews()
+        configureSubviews()
         configureConstraints()
-        setupStyles()
-        configureMovieData()
+        configureNavigationBar()
+        configureStyles()
+        configureData()
     }
     
     
-    private func addSubviews() {
-        //
-        [imageBackgroundView, blurBackgroundView, coverMovieView, scrollView, likeButton].forEach {
+    private func configureSubviews() {
+        [avatarView, labelStack, usernameLabel, emailLabel].forEach {
             view.addSubview($0)
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        }
-        
-        [contentView].forEach {
-            scrollView.addSubview($0)
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        }
-        
-        [titleLabel, statisticStackView, infoStackView, descriptionLabel].forEach {
-            contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
     }
     
     
     private func configureConstraints() {
-        
-        statisticStackView.axis = NSLayoutConstraint.Axis.horizontal
-        statisticStackView.spacing = 8
-        statisticStackView.distribution = .fillEqually
-        statisticStackView.alignment = UIStackView.Alignment.top
-        [rateView, voteView, popularityView].forEach {
-            statisticStackView.addArrangedSubview($0)
-        }
-        
-        infoStackView.axis = NSLayoutConstraint.Axis.horizontal
-        infoStackView.spacing = 16
-        infoStackView.distribution = .fillEqually
-        infoStackView.alignment = UIStackView.Alignment.top
-        [releaseDateView, languageView].forEach {
-            infoStackView.addArrangedSubview($0)
-        }
-        
-        imageBackgroundHeightConstraint = imageBackgroundView.heightAnchor.constraint(equalToConstant: Constants.backgroundHeight)
-        
-        coverTopConstraint = coverMovieView.topAnchor.constraint(equalTo: blurBackgroundView.topAnchor, constant: 32)
-        coverHeightConstraint = coverMovieView.heightAnchor.constraint(equalToConstant: Constants.coverHeight)
-        coverWidhtConstraint = coverMovieView.widthAnchor.constraint(equalToConstant: Constants.coverHeight/1.5)
-        
         NSLayoutConstraint.activate([
-            
-            imageBackgroundView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
-            imageBackgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
-            imageBackgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
-            imageBackgroundHeightConstraint,
-            
-            blurBackgroundView.topAnchor.constraint(equalTo: imageBackgroundView.topAnchor, constant: 0),
-            blurBackgroundView.leadingAnchor.constraint(equalTo: imageBackgroundView.leadingAnchor, constant: 0),
-            blurBackgroundView.trailingAnchor.constraint(equalTo: imageBackgroundView.trailingAnchor, constant: 0),
-            blurBackgroundView.bottomAnchor.constraint(equalTo: imageBackgroundView.bottomAnchor, constant: 0),
-            
-            //            coverMovieView.topAnchor.constraint(equalTo: blurBackgroundView.topAnchor, constant: 32),
-            coverTopConstraint,
-            coverMovieView.centerXAnchor.constraint(equalTo: blurBackgroundView.centerXAnchor, constant: 0),
-            coverWidhtConstraint,
-            coverHeightConstraint,
-            //            coverMovieView.heightAnchor.constraint(equalToConstant: Constants.coverHeight),
-            
-            scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            scrollView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            
-            likeButton.bottomAnchor.constraint(equalTo: contentView.topAnchor, constant: -24),
-            likeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
-            
-            contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 32),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 32),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -32),
-            
-            statisticStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24),
-            statisticStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            statisticStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            
-            infoStackView.topAnchor.constraint(equalTo: statisticStackView.bottomAnchor, constant: 32),
-            infoStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 32),
-            infoStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -32),
-            
-            descriptionLabel.topAnchor.constraint(equalTo: infoStackView.bottomAnchor, constant: 40),
-            descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 32),
-            descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -32),
-            descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -64) //Важный констрейнт для работы скролла
+            avatarView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
+            avatarView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
+            labelStack.centerYAnchor.constraint(equalTo: avatarView.centerYAnchor, constant: 0),
+            labelStack.leadingAnchor.constraint(equalTo: avatarView.trailingAnchor, constant: 24),
+            labelStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32),
         ])
         
+        labelStack.axis = NSLayoutConstraint.Axis.vertical
+        labelStack.spacing = 4
+//        labelStack.alignment = UIStackView.Alignment.top
+        [usernameLabel, emailLabel].forEach {
+            labelStack.addArrangedSubview($0)
+        }
     }
 
-    private func setupNavigationBar() {
-        navigationController?.navigationBar.prefersLargeTitles = true
+    private func configureNavigationBar() {
+//        navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.largeTitleTextAttributes = AttributedFontStyle.largeFont
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "Ico_Profile"), style: .plain, target: self, action: #selector(editTappedButton))
     }
     
-    private func setupStyles() {
-        imageBackgroundView.backgroundColor = .green
-        imageBackgroundView.layer.cornerRadius = 24
-        imageBackgroundView.clipsToBounds = true
-        imageBackgroundView.contentMode = .scaleAspectFill
-        
-        blurBackgroundView.layer.cornerRadius = 24
-        blurBackgroundView.clipsToBounds = true
-        
-        coverMovieView.layer.cornerRadius = 16
-        coverMovieView.clipsToBounds = true
-        coverMovieView.contentMode = .scaleAspectFill
-        
+    private func configureStyles() {
         view.backgroundColor = Colors.primaryBackgroundColor
-        titleLabel.font = FontStyle.regularTitleFont
-        titleLabel.textColor = Colors.primaryTextOnBackgroundColor
-        titleLabel.numberOfLines = 2
+        usernameLabel.font = FontStyle.smallTitleFont
+        usernameLabel.textColor = Colors.primaryTextOnSurfaceColor
         
-        descriptionLabel.font = FontStyle.bodyFont
-        descriptionLabel.textColor = Colors.primaryTextOnBackgroundColor
-        descriptionLabel.numberOfLines = 0
-        
-        contentView.backgroundColor = Colors.primaryBackgroundColor
-        contentView.layer.cornerRadius = 32
-        scrollView.clipsToBounds = true
-        scrollView.contentInset.top = 408
-        
-        likeButton.iconView.image = Icons.heartStroked.image
+        emailLabel.font = FontStyle.bodyFont
+        emailLabel.textColor = Colors.secondaryTextOnSurfaceColor
+    }
+
+    internal func configureData() {
+        var profile: Profile = .init(
+            name: UserDefaults.standard.string(forKey: DataProfileKeys.userName.rawValue),
+            email: UserDefaults.standard.string(forKey: DataProfileKeys.emailAddress.rawValue),
+            photo: UIImage(named: "")
+            )
+        usernameLabel.text = profile.name
+        emailLabel.text = profile.email
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        //        print(scrollView.contentOffset.y)
-        if scrollView.contentOffset.y < -408 {
-            imageBackgroundHeightConstraint.constant = Constants.backgroundHeight - scrollView.contentOffset.y - 408
-            
-            coverHeightConstraint.constant = Constants.coverHeight - scrollView.contentOffset.y - 408
-            coverWidhtConstraint.constant = coverHeightConstraint.constant/1.5
-        } else {
-            imageBackgroundHeightConstraint.constant = Constants.backgroundHeight - scrollView.contentOffset.y - 408
-//            let parallaxFactor: CGFloat = 0.25
-//            let offsetY = scrollView.contentOffset.y * parallaxFactor
-//            let minOffsetY: CGFloat = 8.0
-//            let availableOffset = min(offsetY, minOffsetY)
-//            let contentRectOffsetY = availableOffset / Constants.coverHeight
-//            coverTopConstraint?.constant = view.frame.origin.y
-//            coverHeightConstraint?.constant = Constants.coverHeight - scrollView.contentOffset.y
-//            coverMovieView.layer.contentsRect = CGRect(x: 0, y: -contentRectOffsetY, width: 1, height: 1)
-//            coverTopConstraint?.constant = view.frame.origin.y
-//            let parallaxFactor: CGFloat = 1
-//            let offsetY = scrollView.contentOffset.y * parallaxFactor
-//            coverTopConstraint?.constant = Constants.coverHeight + offsetY - 408
-            
-        }
-        
-        
-        if scrollView.contentOffset.y > -116 {
-            
-            UIView.animate(withDuration: 0.3, animations: {
-                self.likeButton.transform = CGAffineTransform(scaleX: 0.001, y: 0.001)
-            })
-            
-        } else {
-            UIView.animate(withDuration: 0.3, animations: {
-                self.likeButton.transform = CGAffineTransform(scaleX: 1, y: 1)
-            })
-        }
+    @objc func editTappedButton() {
+        let profileEditInfoViewController = ProfileEditInfoViewController()
+        let navigationController = UINavigationController(rootViewController: profileEditInfoViewController)
+        profileEditInfoViewController.delegate = self
+//        profileEditInfoViewController.configureProfileData(with: profile)
+        present(navigationController, animated: true)
     }
     
-    private func configureMovieData() {
-        imageBackgroundView.image = UIImage(named: "Cover 1")
-        coverMovieView.image = UIImage(named: "Cover 1")
-        
-        titleLabel.text = "Avatar: The Way of Water"
-        
-        rateView.configureData(setValue: "8.7", setDescription: "Rating")
-        voteView.configureData(setValue: "23200", setDescription: "Vote count")
-        popularityView.configureData(setValue: "87.951", setDescription: "Popularity")
-        
-        releaseDateView.configureData(setValue: "2022-12-14", setDescription: "Release date")
-        languageView.configureData(setValue: "en", setDescription: "Language")
-        
-        descriptionLabel.text = "Framed in the 1940s for the double murder of his wife and her lover, upstanding banker Andy Dufresne begins a new life at the Shawshank prison, where he puts his accounting skills to work for an amoral warden. During his long stretch in prison, Dufresne comes to be admired by the other inmates -- including an older prisoner named Red -- for his integrity and unquenchable sense of hope."
-    }
 }
 
 

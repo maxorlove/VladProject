@@ -25,6 +25,7 @@
 		A41DAC0029898CB000A7A7A2 /* ServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A41DABFF29898CB000A7A7A2 /* ServiceManager.swift */; };
 		A41DAC062989940500A7A7A2 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = A41DAC052989940500A7A7A2 /* SDWebImage */; };
 		A41DAC082989940500A7A7A2 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = A41DAC072989940500A7A7A2 /* SDWebImageMapKit */; };
+		A424062529ABE02B00623D21 /* TextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A424062429ABE02B00623D21 /* TextFieldView.swift */; };
 		A477F502299CA854003C4A9D /* Icons.swift in Sources */ = {isa = PBXBuildFile; fileRef = A477F501299CA854003C4A9D /* Icons.swift */; };
 		A477F508299CF449003C4A9D /* MovieDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A477F507299CF449003C4A9D /* MovieDetailsViewController.swift */; };
 		A49959FC296AECF7001C3D70 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A49959FB296AECF7001C3D70 /* Colors.swift */; };
@@ -33,6 +34,10 @@
 		A4995A05296B111F001C3D70 /* SelectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4995A04296B111F001C3D70 /* SelectButton.swift */; };
 		A4995A07296B1FF1001C3D70 /* MovieTileViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4995A06296B1FF1001C3D70 /* MovieTileViewCell.swift */; };
 		A4995A09296B3C2D001C3D70 /* IconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4995A08296B3C2D001C3D70 /* IconButton.swift */; };
+		A4B03CE129B3E66500DF8BEF /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B03CE029B3E66500DF8BEF /* AvatarView.swift */; };
+		A4B03CE329B47D1E00DF8BEF /* ProfileEditInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B03CE229B47D1E00DF8BEF /* ProfileEditInfoViewController.swift */; };
+		A4B03CE529B482B300DF8BEF /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B03CE429B482B300DF8BEF /* ProfileModel.swift */; };
+		A4B03CE729B4AB5000DF8BEF /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B03CE629B4AB5000DF8BEF /* Button.swift */; };
 		A4CD304A298C1F900031C6F1 /* AllMoviesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4CD3049298C1F900031C6F1 /* AllMoviesResponse.swift */; };
 /* End PBXBuildFile section */
 
@@ -55,6 +60,7 @@
 		A41DABFB29898C6100A7A7A2 /* RequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestModel.swift; sourceTree = "<group>"; };
 		A41DABFD29898C8B00A7A7A2 /* AllMoviesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllMoviesRequest.swift; sourceTree = "<group>"; };
 		A41DABFF29898CB000A7A7A2 /* ServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceManager.swift; sourceTree = "<group>"; };
+		A424062429ABE02B00623D21 /* TextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldView.swift; sourceTree = "<group>"; };
 		A477F501299CA854003C4A9D /* Icons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icons.swift; sourceTree = "<group>"; };
 		A477F507299CF449003C4A9D /* MovieDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewController.swift; sourceTree = "<group>"; };
 		A49959FB296AECF7001C3D70 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
@@ -63,6 +69,10 @@
 		A4995A04296B111F001C3D70 /* SelectButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectButton.swift; sourceTree = "<group>"; };
 		A4995A06296B1FF1001C3D70 /* MovieTileViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTileViewCell.swift; sourceTree = "<group>"; };
 		A4995A08296B3C2D001C3D70 /* IconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconButton.swift; sourceTree = "<group>"; };
+		A4B03CE029B3E66500DF8BEF /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
+		A4B03CE229B47D1E00DF8BEF /* ProfileEditInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditInfoViewController.swift; sourceTree = "<group>"; };
+		A4B03CE429B482B300DF8BEF /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
+		A4B03CE629B4AB5000DF8BEF /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		A4CD3049298C1F900031C6F1 /* AllMoviesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllMoviesResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -115,6 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				A40C3799299034BC00D093B2 /* ProfileViewController.swift */,
+				A4B03CE229B47D1E00DF8BEF /* ProfileEditInfoViewController.swift */,
 			);
 			path = ProfileViewController;
 			sourceTree = "<group>";
@@ -174,11 +185,14 @@
 			isa = PBXGroup;
 			children = (
 				A4995A04296B111F001C3D70 /* SelectButton.swift */,
+				A4995A08296B3C2D001C3D70 /* IconButton.swift */,
+				A4B03CE629B4AB5000DF8BEF /* Button.swift */,
+				A4B03CE029B3E66500DF8BEF /* AvatarView.swift */,
 				A40C379E2995878C00D093B2 /* CardInfoView.swift */,
 				A40C37A029959C2E00D093B2 /* TextInfoView.swift */,
 				A40C3797298FB3A400D093B2 /* TabBarController.swift */,
 				A40C3795298E928C00D093B2 /* RatingView.swift */,
-				A4995A08296B3C2D001C3D70 /* IconButton.swift */,
+				A424062429ABE02B00623D21 /* TextFieldView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -187,6 +201,7 @@
 			isa = PBXGroup;
 			children = (
 				A41DABF729898C2100A7A7A2 /* ErrorModel.swift */,
+				A4B03CE429B482B300DF8BEF /* ProfileModel.swift */,
 				A4CD3049298C1F900031C6F1 /* AllMoviesResponse.swift */,
 			);
 			path = Models;
@@ -280,11 +295,16 @@
 				A4995A09296B3C2D001C3D70 /* IconButton.swift in Sources */,
 				A40C379A299034BC00D093B2 /* ProfileViewController.swift in Sources */,
 				A49959FC296AECF7001C3D70 /* Colors.swift in Sources */,
+				A424062529ABE02B00623D21 /* TextFieldView.swift in Sources */,
 				7FA9805C295B24180053E050 /* AppDelegate.swift in Sources */,
+				A4B03CE329B47D1E00DF8BEF /* ProfileEditInfoViewController.swift in Sources */,
 				A41DABFC29898C6100A7A7A2 /* RequestModel.swift in Sources */,
+				A4B03CE129B3E66500DF8BEF /* AvatarView.swift in Sources */,
 				A40C379D29918EA400D093B2 /* MovieListViewCell.swift in Sources */,
+				A4B03CE729B4AB5000DF8BEF /* Button.swift in Sources */,
 				A4CD304A298C1F900031C6F1 /* AllMoviesResponse.swift in Sources */,
 				A477F502299CA854003C4A9D /* Icons.swift in Sources */,
+				A4B03CE529B482B300DF8BEF /* ProfileModel.swift in Sources */,
 				A40C3796298E928C00D093B2 /* RatingView.swift in Sources */,
 				A477F508299CF449003C4A9D /* MovieDetailsViewController.swift in Sources */,
 				A41DABF829898C2100A7A7A2 /* ErrorModel.swift in Sources */,
